@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GraceLedger — Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Bebas+Neue&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy: #070B56;
+      --navy-deep: #04072e;
+      --navy-mid: #0d1270;
+      --navy-card: rgba(13,18,112,0.25);
+      --gold: #FFD700;
+      --gold-dim: #c9a800;
+      --gold-glow: rgba(255,215,0,0.12);
+      --gold-border: rgba(255,215,0,0.15);
+      --white: #ffffff;
+      --white-soft: rgba(255,255,255,0.06);
+      --white-muted: rgba(255,255,255,0.4);
+      --sidebar-w: 240px;
+      --green: #2ecc71;
+      --red: #e74c3c;
+      --amber: #f39c12;
+    }
+
+    html, body {
+      height: 100%;
+      background: var(--navy-deep);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      color: var(--white);
+      overflow: hidden;
+    }
+
+    /* ── BG GRID ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,215,0,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,215,0,0.03) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── LAYOUT ── */
+    .app {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      height: 100vh;
+    }
+
+    /* ── SIDEBAR ── */
+    .sidebar {
+      width: var(--sidebar-w);
+      background: rgba(4,7,46,0.95);
+      border-right: 1px solid var(--gold-border);
+      display: flex;
+      flex-direction: column;
+      padding: 0;
+      flex-shrink: 0;
+      backdrop-filter: blur(20px);
+    }
+
+    .sidebar-brand {
+      padding: 28px 24px 24px;
+      border-bottom: 1px solid var(--gold-border);
+    }
+
+    .sidebar-brand-eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 8px;
+      letter-spacing: 0.25em;
+      color: rgba(255,215,0,0.5);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .sidebar-brand-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 22px;
+      letter-spacing: 0.1em;
+      color: var(--white);
+      line-height: 1;
+    }
+
+    .sidebar-brand-name span { color: var(--gold); }
+
+    .sidebar-nav {
+      flex: 1;
+      padding: 20px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      overflow-y: auto;
+    }
+
+    .nav-section-label {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      color: var(--white-muted);
+      text-transform: uppercase;
+      padding: 8px 12px 6px;
+      margin-top: 8px;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      text-decoration: none;
+      color: var(--white-muted);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.05em;
+      transition: background 0.2s, color 0.2s;
+      cursor: pointer;
+      border: none;
+      background: none;
+      width: 100%;
+      text-align: left;
+    }
+
+    .nav-item:hover {
+      background: var(--white-soft);
+      color: var(--white);
+    }
+
+    .nav-item.active {
+      background: var(--gold-glow);
+      color: var(--gold);
+      border: 1px solid var(--gold-border);
+    }
+
+    .nav-icon {
+      width: 18px;
+      height: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+
+    .sidebar-footer {
+      padding: 16px 12px;
+      border-top: 1px solid var(--gold-border);
+    }
+
+    .btn-logout {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 8px;
+      background: none;
+      border: 1px solid rgba(231,76,60,0.2);
+      color: rgba(231,76,60,0.7);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s, border-color 0.2s;
+    }
+
+    .btn-logout:hover {
+      background: rgba(231,76,60,0.08);
+      color: #e74c3c;
+      border-color: rgba(231,76,60,0.4);
+    }
+
+    /* ── MAIN CONTENT ── */
+    .main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* Top bar */
+    .topbar {
+      padding: 20px 32px;
+      border-bottom: 1px solid var(--gold-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(4,7,46,0.6);
+      backdrop-filter: blur(10px);
+      flex-shrink: 0;
+    }
+
+    .topbar-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--white);
+    }
+
+    .topbar-date {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      font-size: 10px;
+      color: var(--white-muted);
+      letter-spacing: 0.1em;
+    }
+
+    /* Scrollable content */
+    .content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 32px;
+    }
+
+    .content::-webkit-scrollbar { width: 4px; }
+    .content::-webkit-scrollbar-track { background: transparent; }
+    .content::-webkit-scrollbar-thumb { background: var(--gold-border); border-radius: 4px; }
+
+    /* ── STAT CARDS ── */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .stat-card {
+      background: rgba(13,18,112,0.2);
+      border: 1px solid var(--gold-border);
+      border-radius: 12px;
+      padding: 24px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.2s, transform 0.2s;
+      animation: cardIn 0.5s ease both;
+    }
+
+    .stat-card:nth-child(1) { animation-delay: 0.05s; }
+    .stat-card:nth-child(2) { animation-delay: 0.1s; }
+    .stat-card:nth-child(3) { animation-delay: 0.15s; }
+    .stat-card:nth-child(4) { animation-delay: 0.2s; }
+
+    @keyframes cardIn {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .stat-card:hover {
+      border-color: rgba(255,215,0,0.35);
+      transform: translateY(-2px);
+    }
+
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0; right: 0;
+      width: 80px; height: 80px;
+      background: radial-gradient(circle, var(--gold-glow) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .stat-label {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      color: var(--white-muted);
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .stat-value {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 40px;
+      color: var(--gold);
+      letter-spacing: 0.02em;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .stat-sub {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      font-size: 10px;
+      color: var(--white-muted);
+    }
+
+    .stat-icon {
+      position: absolute;
+      bottom: 16px;
+      right: 16px;
+      font-size: 24px;
+      opacity: 0.15;
+    }
+
+    /* ── BOTTOM GRID ── */
+    .bottom-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .panel {
+      background: rgba(13,18,112,0.2);
+      border: 1px solid var(--gold-border);
+      border-radius: 12px;
+      overflow: hidden;
+      animation: cardIn 0.5s ease 0.3s both;
+    }
+
+    .panel-header {
+      padding: 18px 24px;
+      border-bottom: 1px solid var(--gold-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .panel-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--white);
+    }
+
+    .panel-action {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      font-size: 10px;
+      color: var(--gold);
+      cursor: pointer;
+      letter-spacing: 0.05em;
+      text-decoration: none;
+      opacity: 0.8;
+      transition: opacity 0.2s;
+    }
+    .panel-action:hover { opacity: 1; }
+
+    .panel-body {
+      padding: 0;
+      max-height: 280px;
+      overflow-y: auto;
+    }
+
+    .panel-body::-webkit-scrollbar { width: 3px; }
+    .panel-body::-webkit-scrollbar-thumb { background: var(--gold-border); }
+
+    /* Table */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .data-table th {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      font-size: 9px;
+      letter-spacing: 0.15em;
+      color: var(--white-muted);
+      text-transform: uppercase;
+      padding: 12px 24px;
+      text-align: left;
+      border-bottom: 1px solid var(--gold-border);
+      background: rgba(0,0,0,0.1);
+    }
+
+    .data-table td {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      padding: 12px 24px;
+      font-size: 11px;
+      color: var(--white);
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+
+    .data-table tr:last-child td { border-bottom: none; }
+    .data-table tr:hover td { background: rgba(255,215,0,0.02); }
+
+    /* Status badges */
+    .badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 9px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-weight: 500;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    .badge-paid {
+      background: rgba(46,204,113,0.12);
+      color: var(--green);
+      border: 1px solid rgba(46,204,113,0.25);
+    }
+
+    .badge-unpaid {
+      background: rgba(231,76,60,0.12);
+      color: var(--red);
+      border: 1px solid rgba(231,76,60,0.25);
+    }
+
+    .badge-pending {
+      background: rgba(243,156,18,0.12);
+      color: var(--amber);
+      border: 1px solid rgba(243,156,18,0.25);
+    }
+
+    /* Empty state */
+    .empty-state {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      padding: 40px 24px;
+      text-align: center;
+      color: var(--white-muted);
+      font-size: 11px;
+      line-height: 2;
+    }
+
+    .empty-state-icon { font-size: 28px; margin-bottom: 8px; opacity: 0.4; }
+
+    /* Loading pulse */
+    .loading-pulse {
+      padding: 32px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .pulse-line {
+      height: 10px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 4px;
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+
+    .pulse-line:nth-child(2) { width: 75%; animation-delay: 0.2s; }
+    .pulse-line:nth-child(3) { width: 90%; animation-delay: 0.4s; }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.4; }
+      50% { opacity: 0.8; }
+    }
+
+    /* Revenue highlight */
+    .revenue-amount {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 14px;
+      color: var(--gold);
+      letter-spacing: 0.05em;
+    }
+
+    /* Quick actions */
+    .quick-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      padding: 20px;
+    }
+
+    .quick-btn {
+      padding: 14px;
+      border-radius: 8px;
+      border: 1px solid var(--gold-border);
+      background: var(--white-soft);
+      color: var(--white);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s, transform 0.15s;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+    }
+
+    .quick-btn:hover {
+      background: var(--gold-glow);
+      border-color: rgba(255,215,0,0.4);
+      transform: translateY(-1px);
+    }
+
+    .quick-btn-icon { font-size: 20px; }
+
+    /* Overdue warning */
+    .overdue-banner {
+      display: none;
+      align-items: center;
+      gap: 12px;
+      background: rgba(231,76,60,0.08);
+      border: 1px solid rgba(231,76,60,0.2);
+      border-radius: 10px;
+      padding: 14px 20px;
+      margin-bottom: 24px;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      font-size: 11px;
+      color: rgba(231,76,60,0.9);
+      animation: cardIn 0.4s ease both;
+    }
+
+    .overdue-banner.show { display: flex; }
+
+    /* ── RESPONSIVE BREAKPOINTS ── */
+    @media (max-width: 1100px) {
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .bottom-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        position: fixed;
+        left: -100%;
+        top: 0;
+        bottom: 0;
+        width: 80%;
+        max-width: 280px;
+        z-index: 1000;
+        transition: left 0.3s ease;
+        background: rgba(4,7,46,0.98);
+      }
+      
+      .sidebar.open {
+        left: 0;
+      }
+      
+      .main {
+        width: 100%;
+      }
+      
+      .topbar {
+        padding: 16px 20px;
+      }
+      
+      .topbar-title {
+        font-size: 18px;
+      }
+      
+      .content {
+        padding: 20px;
+      }
+      
+      .stat-card {
+        padding: 16px;
+      }
+      
+      .stat-value {
+        font-size: 28px;
+      }
+      
+      .panel-header {
+        padding: 14px 18px;
+      }
+      
+      .data-table th,
+      .data-table td {
+        padding: 10px 16px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .stats-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+      
+      .quick-actions {
+        grid-template-columns: 1fr;
+      }
+      
+      .topbar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+    }
+
+    @media (min-width: 769px) {
+      .menu-toggle {
+        display: none;
+      }
+    }
+
+    /* Mobile menu button (add via JS if needed) */
+    .menu-toggle {
+      position: fixed;
+      top: 16px;
+      left: 16px;
+      z-index: 1001;
+      background: var(--gold);
+      border: none;
+      border-radius: 8px;
+      padding: 8px 12px;
+      cursor: pointer;
+      font-size: 18px;
+      color: var(--navy-deep);
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      .menu-toggle {
+        display: block;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- Mobile menu toggle button -->
+  <button class="menu-toggle" id="menuToggle">☰</button>
+
+  <!-- ── SIDEBAR ── -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div class="sidebar-brand-eyebrow">GOD'S GRACE ULTRA</div>
+      <div class="sidebar-brand-name">Grace<span>Ledger</span></div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <span class="nav-section-label">Main</span>
+      <a class="nav-item active" href="dashboard.html">
+        <span class="nav-icon">⬛</span> Dashboard
+      </a>
+      <a class="nav-item" href="clients.html">
+        <span class="nav-icon">👤</span> Clients
+      </a>
+      <a class="nav-item" href="invoices.html">
+        <span class="nav-icon">📄</span> Invoices
+      </a>
+      <a class="nav-item" href="create-invoice.html">
+        <span class="nav-icon">✚</span> New Invoice
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <button class="btn-logout" id="logoutBtn">
+        <span>⏻</span> Sign Out
+      </button>
+    </div>
+  </aside>
+
+  <!-- ── MAIN ── -->
+  <div class="main">
+    <div class="topbar">
+      <div class="topbar-title">Dashboard</div>
+      <div class="topbar-date" id="topbarDate"></div>
+    </div>
+
+    <div class="content">
+
+      <!-- Overdue warning -->
+      <div class="overdue-banner" id="overdueBanner">
+        ⚠ &nbsp; You have <strong id="overdueCount">0</strong>&nbsp;overdue invoice(s). Review them promptly.
+      </div>
+
+      <!-- Stats -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-label">Total Clients</div>
+          <div class="stat-value" id="statClients">—</div>
+          <div class="stat-sub">registered</div>
+          <div class="stat-icon">👤</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Total Invoices</div>
+          <div class="stat-value" id="statInvoices">—</div>
+          <div class="stat-sub">all time</div>
+          <div class="stat-icon">📄</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Revenue Collected</div>
+          <div class="stat-value" id="statRevenue">—</div>
+          <div class="stat-sub" id="statRevenueSub">paid invoices</div>
+          <div class="stat-icon">💰</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Outstanding</div>
+          <div class="stat-value" id="statOutstanding">—</div>
+          <div class="stat-sub" id="statOutstandingSub">unpaid + pending</div>
+          <div class="stat-icon">⏳</div>
+        </div>
+      </div>
+
+      <!-- Bottom panels -->
+      <div class="bottom-grid">
+
+        <!-- Recent invoices -->
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title">Recent Invoices</div>
+            <a class="panel-action" href="invoices.html">View All →</a>
+          </div>
+          <div class="panel-body" id="recentInvoicesBody">
+            <div class="loading-pulse">
+              <div class="pulse-line"></div>
+              <div class="pulse-line"></div>
+              <div class="pulse-line"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick actions + recent clients -->
+        <div style="display:flex; flex-direction:column; gap:20px;">
+
+          <!-- Quick actions -->
+          <div class="panel">
+            <div class="panel-header">
+              <div class="panel-title">Quick Actions</div>
+            </div>
+            <div class="quick-actions">
+              <a class="quick-btn" href="create-invoice.html">
+                <span class="quick-btn-icon">✚</span>
+                New Invoice
+              </a>
+              <a class="quick-btn" href="clients.html">
+                <span class="quick-btn-icon">👤</span>
+                Add Client
+              </a>
+              <a class="quick-btn" href="invoices.html?filter=unpaid">
+                <span class="quick-btn-icon">⏳</span>
+                Unpaid
+              </a>
+              <a class="quick-btn" href="invoices.html?filter=paid">
+                <span class="quick-btn-icon">✅</span>
+                Paid
+              </a>
+            </div>
+          </div>
+
+          <!-- Recent clients -->
+          <div class="panel">
+            <div class="panel-header">
+              <div class="panel-title">Recent Clients</div>
+              <a class="panel-action" href="clients.html">Manage →</a>
+            </div>
+            <div class="panel-body" id="recentClientsBody">
+              <div class="loading-pulse">
+                <div class="pulse-line"></div>
+                <div class="pulse-line"></div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  // Mobile menu toggle functionality
+  const menuToggle = document.getElementById('menuToggle');
+  const sidebar = document.getElementById('sidebar');
+  
+  if (menuToggle && sidebar) {
+    menuToggle.addEventListener('click', () => {
+      sidebar.classList.toggle('open');
+    });
+    
+    // Close sidebar when clicking outside on mobile
+    document.addEventListener('click', (e) => {
+      if (window.innerWidth <= 768) {
+        if (!sidebar.contains(e.target) && !menuToggle.contains(e.target)) {
+          sidebar.classList.remove('open');
+        }
+      }
+    });
+  }
+
+  // ── AUTH GUARD ──
+  if (sessionStorage.getItem('gl_auth') !== 'true') {
+    window.location.href = 'login.html';
+  }
+
+  // ── SUPABASE ──
+  const SUPABASE_URL = 'https://gwvhryfpefhntylnmjqx.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd3dmhyeWZwZWZobnR5bG5tanF4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ3OTM4NzQsImV4cCI6MjA5MDM2OTg3NH0.AMfpcQQ-kzkjmnu_POaNR_IXqCBuVJjOoBp7cgvQcOk';
+  const { createClient } = supabase;
+  const db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  // ── DATE ──
+  document.getElementById('topbarDate').textContent =
+    new Date().toLocaleDateString('en-GB', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
+
+  // ── LOGOUT ──
+  document.getElementById('logoutBtn').addEventListener('click', () => {
+    sessionStorage.removeItem('gl_auth');
+    window.location.href = 'login.html';
+  });
+
+  // ── FORMAT CURRENCY ──
+  function formatCurrency(amount) {
+    if (amount >= 1000) {
+      return '$' + (amount / 1000).toFixed(1) + 'k';
+    }
+    return '$' + Number(amount).toFixed(2);
+  }
+
+  function formatCurrencyFull(amount) {
+    return '$' + Number(amount || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+
+  // ── BADGE ──
+  function badge(status) {
+    return `<span class="badge badge-${status}">${status}</span>`;
+  }
+
+  // ── LOAD STATS ──
+  async function loadStats() {
+    const [clientsRes, invoicesRes] = await Promise.all([
+      db.from('clients').select('id', { count: 'exact' }),
+      db.from('invoices').select('id, amount, status, due_date', { count: 'exact' })
+    ]);
+
+    const totalClients = clientsRes.count || 0;
+    const invoices = invoicesRes.data || [];
+    const totalInvoices = invoicesRes.count || 0;
+
+    const revenue = invoices
+      .filter(i => i.status === 'paid')
+      .reduce((sum, i) => sum + parseFloat(i.amount || 0), 0);
+
+    const outstanding = invoices
+      .filter(i => i.status !== 'paid')
+      .reduce((sum, i) => sum + parseFloat(i.amount || 0), 0);
+
+    // Overdue check
+    const today = new Date().toISOString().split('T')[0];
+    const overdue = invoices.filter(i =>
+      i.status !== 'paid' && i.due_date && i.due_date < today
+    );
+
+    document.getElementById('statClients').textContent = totalClients;
+    document.getElementById('statInvoices').textContent = totalInvoices;
+    document.getElementById('statRevenue').textContent = revenue >= 1000
+      ? '$' + (revenue/1000).toFixed(1) + 'k'
+      : '$' + revenue.toFixed(0);
+    document.getElementById('statOutstanding').textContent = outstanding >= 1000
+      ? '$' + (outstanding/1000).toFixed(1) + 'k'
+      : '$' + outstanding.toFixed(0);
+
+    document.getElementById('statRevenueSub').textContent = formatCurrencyFull(revenue) + ' total paid';
+    document.getElementById('statOutstandingSub').textContent = formatCurrencyFull(outstanding) + ' to collect';
+
+    if (overdue.length > 0) {
+      document.getElementById('overdueCount').textContent = overdue.length;
+      document.getElementById('overdueBanner').classList.add('show');
+    }
+  }
+
+  // ── RECENT INVOICES ──
+  async function loadRecentInvoices() {
+    const { data, error } = await db
+      .from('invoices')
+      .select('id, invoice_number, amount, status, due_date, client_id, clients(name)')
+      .order('created_at', { ascending: false })
+      .limit(6);
+
+    const body = document.getElementById('recentInvoicesBody');
+
+    if (error || !data || data.length === 0) {
+      body.innerHTML = `
+        <div class="empty-state">
+          <div class="empty-state-icon">📄</div>
+          No invoices yet.<br>
+          <a href="create-invoice.html" style="color:var(--gold);font-size:10px;">Create your first invoice →</a>
+        </div>`;
+      return;
+    }
+
+    body.innerHTML = `
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Invoice #</th>
+            <th>Client</th>
+            <th>Amount</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${data.map(inv => `
+            <tr>
+              <td style="color:var(--gold);font-size:10px;">${inv.invoice_number}</td>
+              <td>${inv.clients?.name || '—'}</td>
+              <td class="revenue-amount">${formatCurrencyFull(inv.amount)}</td>
+              <td>${badge(inv.status)}</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>`;
+  }
+
+  // ── RECENT CLIENTS ──
+  async function loadRecentClients() {
+    const { data, error } = await db
+      .from('clients')
+      .select('id, name, company, email')
+      .order('created_at', { ascending: false })
+      .limit(4);
+
+    const body = document.getElementById('recentClientsBody');
+
+    if (error || !data || data.length === 0) {
+      body.innerHTML = `
+        <div class="empty-state">
+          <div class="empty-state-icon">👤</div>
+          No clients yet.<br>
+          <a href="clients.html" style="color:var(--gold);font-size:10px;">Add your first client →</a>
+        </div>`;
+      return;
+    }
+
+    body.innerHTML = `
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Company</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${data.map(c => `
+            <tr>
+              <td>${c.name}</td>
+              <td style="color:var(--white-muted);font-size:10px;">${c.company || '—'}</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>`;
+  }
+
+  // ── INIT ──
+  loadStats();
+  loadRecentInvoices();
+  loadRecentClients();
+</script>
+
+</body>
+</html>

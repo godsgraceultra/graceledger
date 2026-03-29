@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GraceLedger — Clients</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Bebas+Neue&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy: #070B56;
+      --navy-deep: #04072e;
+      --navy-mid: #0d1270;
+      --gold: #FFD700;
+      --gold-glow: rgba(255,215,0,0.12);
+      --gold-border: rgba(255,215,0,0.15);
+      --white: #ffffff;
+      --white-soft: rgba(255,255,255,0.06);
+      --white-muted: rgba(255,255,255,0.4);
+      --sidebar-w: 240px;
+      --green: #2ecc71;
+      --red: #e74c3c;
+    }
+
+    html, body {
+      height: 100%;
+      background: var(--navy-deep);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      color: var(--white);
+      overflow: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,215,0,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,215,0,0.03) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .app {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      height: 100vh;
+    }
+
+    /* ── SIDEBAR ── */
+    .sidebar {
+      width: var(--sidebar-w);
+      background: rgba(4,7,46,0.95);
+      border-right: 1px solid var(--gold-border);
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+      backdrop-filter: blur(20px);
+    }
+
+    .sidebar-brand {
+      padding: 28px 24px 24px;
+      border-bottom: 1px solid var(--gold-border);
+    }
+
+    .sidebar-brand-eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 8px;
+      letter-spacing: 0.25em;
+      color: rgba(255,215,0,0.5);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .sidebar-brand-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 22px;
+      letter-spacing: 0.1em;
+      color: var(--white);
+      line-height: 1;
+    }
+
+    .sidebar-brand-name span { color: var(--gold); }
+
+    .sidebar-nav {
+      flex: 1;
+      padding: 20px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      overflow-y: auto;
+    }
+
+    .nav-section-label {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      color: var(--white-muted);
+      text-transform: uppercase;
+      padding: 8px 12px 6px;
+      margin-top: 8px;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      text-decoration: none;
+      color: var(--white-muted);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.05em;
+      transition: background 0.2s, color 0.2s;
+      border: 1px solid transparent;
+    }
+
+    .nav-item:hover { background: var(--white-soft); color: var(--white); }
+
+    .nav-item.active {
+      background: var(--gold-glow);
+      color: var(--gold);
+      border-color: var(--gold-border);
+    }
+
+    .nav-icon { width: 18px; font-size: 14px; flex-shrink: 0; }
+
+    .sidebar-footer {
+      padding: 16px 12px;
+      border-top: 1px solid var(--gold-border);
+    }
+
+    .btn-logout {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 8px;
+      background: none;
+      border: 1px solid rgba(231,76,60,0.2);
+      color: rgba(231,76,60,0.7);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-logout:hover {
+      background: rgba(231,76,60,0.08);
+      color: #e74c3c;
+      border-color: rgba(231,76,60,0.4);
+    }
+
+    /* ── MAIN ── */
+    .main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .topbar {
+      padding: 20px 32px;
+      border-bottom: 1px solid var(--gold-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(4,7,46,0.6);
+      backdrop-filter: blur(10px);
+      flex-shrink: 0;
+    }
+
+    .topbar-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    .btn-primary {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      background: linear-gradient(135deg, var(--gold), #e6c200);
+      border: none;
+      border-radius: 8px;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 14px;
+      letter-spacing: 0.1em;
+      color: var(--navy-deep);
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.2s;
+      box-shadow: 0 4px 16px rgba(255,215,0,0.2);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 24px rgba(255,215,0,0.3);
+    }
+
+    .content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 32px;
+    }
+
+    .content::-webkit-scrollbar { width: 4px; }
+    .content::-webkit-scrollbar-thumb { background: var(--gold-border); border-radius: 4px; }
+
+    /* ── MODAL ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(4,7,46,0.85);
+      backdrop-filter: blur(8px);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+      animation: fadeIn 0.2s ease;
+    }
+
+    .modal-overlay.open { display: flex; }
+
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    .modal {
+      background: #080d4a;
+      border: 1px solid var(--gold-border);
+      border-radius: 16px;
+      padding: 36px;
+      width: 100%;
+      max-width: 480px;
+      animation: slideUp 0.25s ease;
+      position: relative;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .modal-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .modal-subtitle {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      font-size: 10px;
+      color: var(--white-muted);
+      letter-spacing: 0.05em;
+      margin-bottom: 28px;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 20px; right: 20px;
+      background: none;
+      border: none;
+      color: var(--white-muted);
+      font-size: 20px;
+      cursor: pointer;
+      transition: color 0.2s;
+      line-height: 1;
+    }
+
+    .modal-close:hover { color: var(--white); }
+
+    .form-group { margin-bottom: 18px; }
+
+    .form-label {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      display: block;
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .form-input {
+      width: 100%;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--gold-border);
+      border-radius: 8px;
+      padding: 12px 14px;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      font-size: 12px;
+      color: var(--white);
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .form-input:focus {
+      border-color: rgba(255,215,0,0.5);
+      box-shadow: 0 0 0 3px rgba(255,215,0,0.06);
+    }
+
+    .form-input::placeholder { color: rgba(255,255,255,0.2); }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 24px;
+    }
+
+    .btn-save {
+      flex: 1;
+      padding: 12px;
+      background: linear-gradient(135deg, var(--gold), #e6c200);
+      border: none;
+      border-radius: 8px;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 15px;
+      letter-spacing: 0.1em;
+      color: var(--navy-deep);
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.2s;
+    }
+
+    .btn-save:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(255,215,0,0.25); }
+
+    .btn-cancel {
+      padding: 12px 20px;
+      background: none;
+      border: 1px solid var(--gold-border);
+      border-radius: 8px;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      font-size: 11px;
+      color: var(--white-muted);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-cancel:hover { border-color: rgba(255,255,255,0.3); color: var(--white); }
+
+    /* Feedback msg */
+    .form-feedback {
+      display: none;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      font-size: 10px;
+      padding: 10px 14px;
+      border-radius: 6px;
+      margin-bottom: 16px;
+    }
+
+    .form-feedback.success {
+      display: block;
+      background: rgba(46,204,113,0.1);
+      border: 1px solid rgba(46,204,113,0.25);
+      color: var(--green);
+    }
+
+    .form-feedback.error {
+      display: block;
+      background: rgba(231,76,60,0.1);
+      border: 1px solid rgba(231,76,60,0.25);
+      color: var(--red);
+    }
+
+    /* ── SEARCH BAR ── */
+    .toolbar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+
+    .search-wrap {
+      position: relative;
+      flex: 1;
+      max-width: 360px;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--white-muted);
+      font-size: 13px;
+      pointer-events: none;
+    }
+
+    .search-input {
+      width: 100%;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--gold-border);
+      border-radius: 8px;
+      padding: 10px 14px 10px 38px;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      font-size: 11px;
+      color: var(--white);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .search-input:focus { border-color: rgba(255,215,0,0.4); }
+    .search-input::placeholder { color: rgba(255,255,255,0.2); }
+
+    .client-count {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      font-size: 10px;
+      color: var(--white-muted);
+      letter-spacing: 0.05em;
+      margin-left: auto;
+    }
+
+    /* ── CLIENTS TABLE ── */
+    .table-wrap {
+      background: rgba(13,18,112,0.2);
+      border: 1px solid var(--gold-border);
+      border-radius: 12px;
+      overflow-x: auto;
+      animation: cardIn 0.4s ease both;
+    }
+
+    @keyframes cardIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 600px;
+    }
+
+    .data-table th {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      font-size: 9px;
+      letter-spacing: 0.15em;
+      color: var(--white-muted);
+      text-transform: uppercase;
+      padding: 14px 20px;
+      text-align: left;
+      border-bottom: 1px solid var(--gold-border);
+      background: rgba(0,0,0,0.15);
+    }
+
+    .data-table td {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      padding: 14px 20px;
+      font-size: 11px;
+      color: var(--white);
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      vertical-align: middle;
+    }
+
+    .data-table tr:last-child td { border-bottom: none; }
+
+    .data-table tbody tr {
+      transition: background 0.15s;
+      cursor: default;
+    }
+
+    .data-table tbody tr:hover td { background: rgba(255,215,0,0.025); }
+
+    .client-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--gold-glow);
+      border: 1px solid var(--gold-border);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 13px;
+      color: var(--gold);
+      letter-spacing: 0.05em;
+      margin-right: 10px;
+      flex-shrink: 0;
+    }
+
+    .client-name-cell {
+      display: flex;
+      align-items: center;
+    }
+
+    .client-name-text { 
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      font-weight: 500; 
+    }
+
+    .action-btn {
+      background: none;
+      border: 1px solid transparent;
+      border-radius: 6px;
+      padding: 5px 10px;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      font-size: 10px;
+      cursor: pointer;
+      transition: all 0.15s;
+      letter-spacing: 0.05em;
+    }
+
+    .btn-edit {
+      color: var(--gold);
+      border-color: var(--gold-border);
+    }
+
+    .btn-edit:hover {
+      background: var(--gold-glow);
+    }
+
+    .btn-delete {
+      color: rgba(231,76,60,0.7);
+      border-color: rgba(231,76,60,0.15);
+      margin-left: 6px;
+    }
+
+    .btn-delete:hover {
+      background: rgba(231,76,60,0.08);
+      color: var(--red);
+      border-color: rgba(231,76,60,0.3);
+    }
+
+    .empty-state {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      padding: 60px 24px;
+      text-align: center;
+      color: var(--white-muted);
+      font-size: 11px;
+      line-height: 2.2;
+    }
+
+    .empty-state-icon { font-size: 36px; margin-bottom: 12px; opacity: 0.3; }
+
+    /* Delete confirm modal */
+    .confirm-modal {
+      background: #080d4a;
+      border: 1px solid rgba(231,76,60,0.3);
+      border-radius: 16px;
+      padding: 32px;
+      width: 100%;
+      max-width: 360px;
+      animation: slideUp 0.25s ease;
+      text-align: center;
+    }
+
+    .confirm-icon { font-size: 36px; margin-bottom: 16px; }
+    .confirm-title { font-family: 'Playfair Display', serif; font-size: 20px; margin-bottom: 8px; }
+    .confirm-text { 
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      font-size: 11px; 
+      color: var(--white-muted); 
+      line-height: 1.8; 
+      margin-bottom: 24px; 
+    }
+
+    .confirm-actions { display: flex; gap: 10px; justify-content: center; }
+
+    .btn-danger {
+      padding: 11px 24px;
+      background: rgba(231,76,60,0.15);
+      border: 1px solid rgba(231,76,60,0.4);
+      border-radius: 8px;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 14px;
+      letter-spacing: 0.1em;
+      color: var(--red);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-danger:hover { background: rgba(231,76,60,0.25); }
+
+    /* ── RESPONSIVE BREAKPOINTS ── */
+    @media (max-width: 768px) {
+      .sidebar {
+        position: fixed;
+        left: -100%;
+        top: 0;
+        bottom: 0;
+        width: 80%;
+        max-width: 280px;
+        z-index: 1000;
+        transition: left 0.3s ease;
+        background: rgba(4,7,46,0.98);
+      }
+      
+      .sidebar.open {
+        left: 0;
+      }
+      
+      .main {
+        width: 100%;
+      }
+      
+      .topbar {
+        padding: 16px 20px;
+      }
+      
+      .topbar-title {
+        font-size: 18px;
+      }
+      
+      .content {
+        padding: 20px;
+      }
+      
+      .toolbar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      
+      .search-wrap {
+        max-width: 100%;
+      }
+      
+      .client-count {
+        margin-left: 0;
+        text-align: right;
+      }
+      
+      .modal {
+        padding: 24px 20px;
+        margin: 16px;
+      }
+      
+      .form-row {
+        grid-template-columns: 1fr;
+        gap: 0;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .data-table th,
+      .data-table td {
+        padding: 10px 12px;
+      }
+      
+      .client-avatar {
+        width: 28px;
+        height: 28px;
+        font-size: 11px;
+        margin-right: 8px;
+      }
+      
+      .action-btn {
+        padding: 4px 8px;
+        font-size: 9px;
+      }
+      
+      .btn-primary {
+        padding: 8px 14px;
+        font-size: 12px;
+      }
+    }
+
+    /* Mobile menu button */
+    .menu-toggle {
+      position: fixed;
+      top: 16px;
+      left: 16px;
+      z-index: 1001;
+      background: var(--gold);
+      border: none;
+      border-radius: 8px;
+      padding: 8px 12px;
+      cursor: pointer;
+      font-size: 18px;
+      color: var(--navy-deep);
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      .menu-toggle {
+        display: block;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- Mobile menu toggle button -->
+  <button class="menu-toggle" id="menuToggle">☰</button>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div class="sidebar-brand-eyebrow">GOD'S GRACE ULTRA</div>
+      <div class="sidebar-brand-name">Grace<span>Ledger</span></div>
+    </div>
+    <nav class="sidebar-nav">
+      <span class="nav-section-label">Main</span>
+      <a class="nav-item" href="dashboard.html"><span class="nav-icon">⬛</span> Dashboard</a>
+      <a class="nav-item active" href="clients.html"><span class="nav-icon">👤</span> Clients</a>
+      <a class="nav-item" href="invoices.html"><span class="nav-icon">📄</span> Invoices</a>
+      <a class="nav-item" href="create-invoice.html"><span class="nav-icon">✚</span> New Invoice</a>
+    </nav>
+    <div class="sidebar-footer">
+      <button class="btn-logout" id="logoutBtn"><span>⏻</span> Sign Out</button>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main">
+    <div class="topbar">
+      <div class="topbar-title">Clients</div>
+      <button class="btn-primary" id="openAddModal">✚ &nbsp;Add Client</button>
+    </div>
+
+    <div class="content">
+      <div class="toolbar">
+        <div class="search-wrap">
+          <span class="search-icon">🔍</span>
+          <input class="search-input" id="searchInput" type="text" placeholder="Search clients..."/>
+        </div>
+        <div class="client-count" id="clientCount"></div>
+      </div>
+
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Client</th>
+              <th>Company</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="clientsTableBody">
+            <tr><td colspan="5">
+              <div class="empty-state">
+                <div class="empty-state-icon">👤</div>
+                Loading clients...
+              </div>
+            </td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ADD / EDIT CLIENT MODAL -->
+<div class="modal-overlay" id="clientModal">
+  <div class="modal">
+    <button class="modal-close" id="closeModal">✕</button>
+    <div class="modal-title" id="modalTitle">Add Client</div>
+    <div class="modal-subtitle">Fill in the client details below</div>
+
+    <div class="form-feedback" id="formFeedback"></div>
+
+    <input type="hidden" id="editClientId"/>
+
+    <div class="form-group">
+      <label class="form-label">Full Name *</label>
+      <input class="form-input" id="clientName" type="text" placeholder="e.g. John Adebayo"/>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input class="form-input" id="clientEmail" type="email" placeholder="john@example.com"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Phone</label>
+        <input class="form-input" id="clientPhone" type="text" placeholder="+234 800 000 0000"/>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Company / Business</label>
+      <input class="form-input" id="clientCompany" type="text" placeholder="e.g. Acme Store Ltd"/>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn-cancel" id="cancelModal">Cancel</button>
+      <button class="btn-save" id="saveClientBtn">SAVE CLIENT</button>
+    </div>
+  </div>
+</div>
+
+<!-- DELETE CONFIRM MODAL -->
+<div class="modal-overlay" id="deleteModal">
+  <div class="confirm-modal">
+    <div class="confirm-icon">🗑️</div>
+    <div class="confirm-title">Delete Client?</div>
+    <div class="confirm-text">
+      This will permanently delete <strong id="deleteClientName"></strong> and all their associated invoices. This cannot be undone.
+    </div>
+    <div class="confirm-actions">
+      <button class="btn-cancel" id="cancelDelete">Cancel</button>
+      <button class="btn-danger" id="confirmDelete">DELETE</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Mobile menu toggle functionality
+  const menuToggle = document.getElementById('menuToggle');
+  const sidebar = document.getElementById('sidebar');
+  
+  if (menuToggle && sidebar) {
+    menuToggle.addEventListener('click', () => {
+      sidebar.classList.toggle('open');
+    });
+    
+    // Close sidebar when clicking outside on mobile
+    document.addEventListener('click', (e) => {
+      if (window.innerWidth <= 768) {
+        if (!sidebar.contains(e.target) && !menuToggle.contains(e.target)) {
+          sidebar.classList.remove('open');
+        }
+      }
+    });
+  }
+
+  // ── AUTH GUARD ──
+  if (sessionStorage.getItem('gl_auth') !== 'true') {
+    window.location.href = 'login.html';
+  }
+
+  // ── SUPABASE ──
+  const SUPABASE_URL = 'https://gwvhryfpefhntylnmjqx.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd3dmhyeWZwZWZobnR5bG5tanF4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ3OTM4NzQsImV4cCI6MjA5MDM2OTg3NH0.AMfpcQQ-kzkjmnu_POaNR_IXqCBuVJjOoBp7cgvQcOk';
+  const { createClient } = supabase;
+  const db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  // ── ELEMENTS ──
+  const tbody        = document.getElementById('clientsTableBody');
+  const searchInput  = document.getElementById('searchInput');
+  const clientCount  = document.getElementById('clientCount');
+  const clientModal  = document.getElementById('clientModal');
+  const deleteModal  = document.getElementById('deleteModal');
+  const formFeedback = document.getElementById('formFeedback');
+
+  let allClients = [];
+  let deleteTargetId = null;
+
+  // ── LOGOUT ──
+  document.getElementById('logoutBtn').addEventListener('click', () => {
+    sessionStorage.removeItem('gl_auth');
+    window.location.href = 'login.html';
+  });
+
+  // ── INITIALS AVATAR ──
+  function initials(name) {
+    return name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
+  }
+
+  // ── RENDER TABLE ──
+  function renderTable(clients) {
+    clientCount.textContent = `${clients.length} client${clients.length !== 1 ? 's' : ''}`;
+
+    if (clients.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="5">
+        <div class="empty-state">
+          <div class="empty-state-icon">👤</div>
+          No clients found.<br>Click <strong style="color:var(--gold)">Add Client</strong> to get started.
+        </div>
+      </td></tr>`;
+      return;
+    }
+
+    tbody.innerHTML = clients.map(c => `
+      <tr>
+        <td>
+          <div class="client-name-cell">
+            <div class="client-avatar">${initials(c.name)}</div>
+            <span class="client-name-text">${c.name}</span>
+          </div>
+        </td>
+        <td style="color:var(--white-muted)">${c.company || '—'}</td>
+        <td style="color:var(--white-muted);font-size:10px">${c.email || '—'}</td>
+        <td style="color:var(--white-muted);font-size:10px">${c.phone || '—'}</td>
+        <td>
+          <button class="action-btn btn-edit" onclick="openEdit('${c.id}')">Edit</button>
+          <button class="action-btn btn-delete" onclick="openDelete('${c.id}','${c.name.replace(/'/g,"\\'")}')">Delete</button>
+        </td>
+      </tr>
+    `).join('');
+  }
+
+  // ── LOAD CLIENTS ──
+  async function loadClients() {
+    const { data, error } = await db
+      .from('clients')
+      .select('*')
+      .order('created_at', { ascending: false });
+
+    if (error) {
+      tbody.innerHTML = `<tr><td colspan="5"><div class="empty-state">Failed to load clients. Please refresh.</div></td></tr>`;
+      return;
+    }
+
+    allClients = data || [];
+    renderTable(allClients);
+  }
+
+  // ── SEARCH ──
+  searchInput.addEventListener('input', () => {
+    const q = searchInput.value.toLowerCase();
+    const filtered = allClients.filter(c =>
+      c.name.toLowerCase().includes(q) ||
+      (c.company || '').toLowerCase().includes(q) ||
+      (c.email || '').toLowerCase().includes(q)
+    );
+    renderTable(filtered);
+  });
+
+  // ── MODAL OPEN/CLOSE ──
+  function openAddModal() {
+    document.getElementById('modalTitle').textContent = 'Add Client';
+    document.getElementById('editClientId').value = '';
+    document.getElementById('clientName').value = '';
+    document.getElementById('clientEmail').value = '';
+    document.getElementById('clientPhone').value = '';
+    document.getElementById('clientCompany').value = '';
+    hideFeedback();
+    clientModal.classList.add('open');
+    document.getElementById('clientName').focus();
+  }
+
+  function openEdit(id) {
+    const c = allClients.find(x => x.id === id);
+    if (!c) return;
+    document.getElementById('modalTitle').textContent = 'Edit Client';
+    document.getElementById('editClientId').value = c.id;
+    document.getElementById('clientName').value = c.name;
+    document.getElementById('clientEmail').value = c.email || '';
+    document.getElementById('clientPhone').value = c.phone || '';
+    document.getElementById('clientCompany').value = c.company || '';
+    hideFeedback();
+    clientModal.classList.add('open');
+  }
+
+  function closeClientModal() { clientModal.classList.remove('open'); }
+
+  document.getElementById('openAddModal').addEventListener('click', openAddModal);
+  document.getElementById('closeModal').addEventListener('click', closeClientModal);
+  document.getElementById('cancelModal').addEventListener('click', closeClientModal);
+  clientModal.addEventListener('click', e => { if (e.target === clientModal) closeClientModal(); });
+
+  // ── FEEDBACK ──
+  function showFeedback(type, msg) {
+    formFeedback.className = `form-feedback ${type}`;
+    formFeedback.textContent = msg;
+  }
+
+  function hideFeedback() {
+    formFeedback.className = 'form-feedback';
+    formFeedback.textContent = '';
+  }
+
+  // ── SAVE CLIENT ──
+  document.getElementById('saveClientBtn').addEventListener('click', async () => {
+    const id      = document.getElementById('editClientId').value;
+    const name    = document.getElementById('clientName').value.trim();
+    const email   = document.getElementById('clientEmail').value.trim();
+    const phone   = document.getElementById('clientPhone').value.trim();
+    const company = document.getElementById('clientCompany').value.trim();
+
+    if (!name) { showFeedback('error', 'Client name is required.'); return; }
+
+    const saveBtn = document.getElementById('saveClientBtn');
+    saveBtn.textContent = 'SAVING...';
+    saveBtn.disabled = true;
+
+    let error;
+
+    if (id) {
+      // UPDATE
+      ({ error } = await db.from('clients').update({ name, email, phone, company }).eq('id', id));
+    } else {
+      // INSERT
+      ({ error } = await db.from('clients').insert([{ name, email, phone, company }]));
+    }
+
+    saveBtn.textContent = 'SAVE CLIENT';
+    saveBtn.disabled = false;
+
+    if (error) {
+      showFeedback('error', 'Something went wrong. Please try again.');
+      return;
+    }
+
+    showFeedback('success', id ? 'Client updated successfully.' : 'Client added successfully.');
+    setTimeout(() => {
+      closeClientModal();
+      loadClients();
+    }, 800);
+  });
+
+  // ── DELETE ──
+  function openDelete(id, name) {
+    deleteTargetId = id;
+    document.getElementById('deleteClientName').textContent = name;
+    deleteModal.classList.add('open');
+  }
+
+  document.getElementById('cancelDelete').addEventListener('click', () => {
+    deleteModal.classList.remove('open');
+    deleteTargetId = null;
+  });
+
+  deleteModal.addEventListener('click', e => {
+    if (e.target === deleteModal) {
+      deleteModal.classList.remove('open');
+      deleteTargetId = null;
+    }
+  });
+
+  document.getElementById('confirmDelete').addEventListener('click', async () => {
+    if (!deleteTargetId) return;
+    const btn = document.getElementById('confirmDelete');
+    btn.textContent = 'DELETING...';
+    btn.disabled = true;
+
+    const { error } = await db.from('clients').delete().eq('id', deleteTargetId);
+
+    btn.textContent = 'DELETE';
+    btn.disabled = false;
+    deleteModal.classList.remove('open');
+    deleteTargetId = null;
+
+    if (!error) loadClients();
+  });
+
+  // ── INIT ──
+  loadClients();
+</script>
+
+</body>
+</html>
