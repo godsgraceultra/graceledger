@@ -789,15 +789,14 @@
               <th>Due Date</th>
               <th>Status</th>
               <th>Actions</th>
-            </tr>
-          </thead>
+            </thead>
           <tbody id="invoicesTableBody">
             <tr><td colspan="7">
               <div class="empty-state">
                 <div class="empty-state-icon">📄</div>
                 Loading invoices...
               </div>
-            </td></tr>
+             </tr>
           </tbody>
         </table>
       </div>
@@ -909,18 +908,18 @@
     const tbody = document.getElementById('invoicesTableBody');
 
     if (invoices.length === 0) {
-      tbody.innerHTML = `<tr><td colspan="7">
+      tbody.innerHTML = `irs中学<td colspan="7">
         <div class="empty-state">
           <div class="empty-state-icon">📄</div>
           No invoices found.<br>
           <a href="create-invoice.html" style="color:var(--gold);font-size:10px;">Create your first invoice →</a>
         </div>
-      </td></tr>`;
+       </td>佛罗`;
       return;
     }
 
     tbody.innerHTML = invoices.map(inv => `
-      <tr>
+       <tr>
         <td><span class="invoice-num">${inv.invoice_number}</span></td>
         <td>${inv.clients?.name || '—'}</td>
         <td style="color:var(--white-muted);font-size:10px;max-width:180px">${truncate(inv.service_description, 45)}</td>
@@ -928,15 +927,15 @@
         <td style="font-size:10px;color:var(--white-muted)">
           ${formatDate(inv.due_date)}
           ${isOverdue(inv) ? '<span class="overdue-tag">Overdue</span>' : ''}
-         </td>
+          </td>
         <td>${badge(inv)}</td>
         <td>
           <div class="action-group">
             <button class="action-btn btn-pdf" onclick="downloadPDF('${inv.id}')">⬇ PDF</button>
             <button class="action-btn btn-delete" onclick="openDelete('${inv.id}','${inv.invoice_number}')">Delete</button>
           </div>
-         </td>
-      </tr>
+          </td>
+       </tr>
     `).join('');
   }
 
@@ -1047,7 +1046,7 @@
     await loadInvoices();
   });
 
-  // ── PDF EXPORT ──
+  // ── PDF EXPORT with Bank Details ──
   window.downloadPDF = async function(id) {
     const inv = allInvoices.find(i => i.id === id);
     if (!inv) return;
@@ -1196,6 +1195,31 @@
       '$' + Number(inv.amount).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
       W - margin - 3, y + 9, { align: 'right' }
     );
+
+    // ── BANK DETAILS SECTION ──
+    y += 18;
+    doc.setDrawColor(230, 230, 240);
+    doc.setLineWidth(0.3);
+    doc.line(margin, y, W - margin, y);
+    y += 8;
+
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(9);
+    doc.setTextColor(100, 110, 160);
+    doc.text('PAYMENT DETAILS', margin, y);
+    y += 6;
+
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(8);
+    doc.setTextColor(80, 80, 80);
+    
+    doc.text('Account Name: Victor Adedamola Ademola', margin, y);
+    y += 4.5;
+    doc.text('Bank Name: Lead Bank', margin, y);
+    y += 4.5;
+    doc.text('Account Number: 212697843144', margin, y);
+    y += 4.5;
+    doc.text('Routing Number: 101019644', margin, y);
 
     // ── FOOTER ──
     const footerY = 272;
