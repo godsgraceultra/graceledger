@@ -784,7 +784,7 @@
 
   // ── AUTH GUARD ──
   if (sessionStorage.getItem('gl_auth') !== 'true') {
-    window.location.href = 'login.html';
+    window.location.href = 'index.html';
   }
 
   // ── SUPABASE ──
@@ -796,7 +796,7 @@
   // ── LOGOUT ──
   document.getElementById('logoutBtn').addEventListener('click', () => {
     sessionStorage.removeItem('gl_auth');
-    window.location.href = 'login.html';
+    window.location.href = 'index.html';
   });
 
   let clients = [];
