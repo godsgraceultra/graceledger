@@ -103,7 +103,7 @@
     }
 
     .nav-section-label {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      font-family: 'Inter', sans-serif;
       font-size: 9px;
       letter-spacing: 0.2em;
       color: var(--white-muted);
@@ -120,7 +120,7 @@
       border-radius: 8px;
       text-decoration: none;
       color: var(--white-muted);
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      font-family: 'Inter', sans-serif;
       font-size: 11px;
       letter-spacing: 0.05em;
       transition: background 0.2s, color 0.2s;
@@ -167,7 +167,7 @@
       background: none;
       border: 1px solid rgba(231,76,60,0.2);
       color: rgba(231,76,60,0.7);
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      font-family: 'Inter', sans-serif;
       font-size: 11px;
       letter-spacing: 0.05em;
       cursor: pointer;
@@ -188,7 +188,6 @@
       overflow: hidden;
     }
 
-    /* Top bar */
     .topbar {
       padding: 20px 32px;
       border-bottom: 1px solid var(--gold-border);
@@ -208,13 +207,12 @@
     }
 
     .topbar-date {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      font-family: 'Inter', sans-serif;
       font-size: 10px;
       color: var(--white-muted);
       letter-spacing: 0.1em;
     }
 
-    /* Scrollable content */
     .content {
       flex: 1;
       overflow-y: auto;
@@ -225,7 +223,6 @@
     .content::-webkit-scrollbar-track { background: transparent; }
     .content::-webkit-scrollbar-thumb { background: var(--gold-border); border-radius: 4px; }
 
-    /* ── STAT CARDS ── */
     .stats-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -269,7 +266,7 @@
     }
 
     .stat-label {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      font-family: 'Inter', sans-serif;
       font-size: 9px;
       letter-spacing: 0.2em;
       color: var(--white-muted);
@@ -287,7 +284,7 @@
     }
 
     .stat-sub {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      font-family: 'Inter', sans-serif;
       font-size: 10px;
       color: var(--white-muted);
     }
@@ -300,7 +297,6 @@
       opacity: 0.15;
     }
 
-    /* ── BOTTOM GRID ── */
     .bottom-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -331,7 +327,7 @@
     }
 
     .panel-action {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      font-family: 'Inter', sans-serif;
       font-size: 10px;
       color: var(--gold);
       cursor: pointer;
@@ -351,14 +347,13 @@
     .panel-body::-webkit-scrollbar { width: 3px; }
     .panel-body::-webkit-scrollbar-thumb { background: var(--gold-border); }
 
-    /* Table */
     .data-table {
       width: 100%;
       border-collapse: collapse;
     }
 
     .data-table th {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      font-family: 'Inter', sans-serif;
       font-size: 9px;
       letter-spacing: 0.15em;
       color: var(--white-muted);
@@ -370,7 +365,7 @@
     }
 
     .data-table td {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      font-family: 'Inter', sans-serif;
       padding: 12px 24px;
       font-size: 11px;
       color: var(--white);
@@ -380,7 +375,6 @@
     .data-table tr:last-child td { border-bottom: none; }
     .data-table tr:hover td { background: rgba(255,215,0,0.02); }
 
-    /* Status badges */
     .badge {
       display: inline-block;
       padding: 3px 10px;
@@ -389,7 +383,7 @@
       letter-spacing: 0.1em;
       text-transform: uppercase;
       font-weight: 500;
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      font-family: 'Inter', sans-serif;
     }
 
     .badge-paid {
@@ -410,9 +404,8 @@
       border: 1px solid rgba(243,156,18,0.25);
     }
 
-    /* Empty state */
     .empty-state {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      font-family: 'Inter', sans-serif;
       padding: 40px 24px;
       text-align: center;
       color: var(--white-muted);
@@ -422,7 +415,6 @@
 
     .empty-state-icon { font-size: 28px; margin-bottom: 8px; opacity: 0.4; }
 
-    /* Loading pulse */
     .loading-pulse {
       padding: 32px 24px;
       display: flex;
@@ -445,7 +437,6 @@
       50% { opacity: 0.8; }
     }
 
-    /* Revenue highlight */
     .revenue-amount {
       font-family: 'Bebas Neue', sans-serif;
       font-size: 14px;
@@ -453,7 +444,6 @@
       letter-spacing: 0.05em;
     }
 
-    /* Quick actions */
     .quick-actions {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -467,7 +457,7 @@
       border: 1px solid var(--gold-border);
       background: var(--white-soft);
       color: var(--white);
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      font-family: 'Inter', sans-serif;
       font-size: 10px;
       letter-spacing: 0.08em;
       cursor: pointer;
@@ -488,7 +478,6 @@
 
     .quick-btn-icon { font-size: 20px; }
 
-    /* Overdue warning */
     .overdue-banner {
       display: none;
       align-items: center;
@@ -498,7 +487,7 @@
       border-radius: 10px;
       padding: 14px 20px;
       margin-bottom: 24px;
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      font-family: 'Inter', sans-serif;
       font-size: 11px;
       color: rgba(231,76,60,0.9);
       animation: cardIn 0.4s ease both;
@@ -506,7 +495,6 @@
 
     .overdue-banner.show { display: flex; }
 
-    /* ── RESPONSIVE BREAKPOINTS ── */
     @media (max-width: 1100px) {
       .stats-grid { grid-template-columns: repeat(2, 1fr); }
       .bottom-grid { grid-template-columns: 1fr; }
@@ -525,68 +513,23 @@
         background: rgba(4,7,46,0.98);
       }
       
-      .sidebar.open {
-        left: 0;
-      }
-      
-      .main {
-        width: 100%;
-      }
-      
-      .topbar {
-        padding: 16px 20px;
-      }
-      
-      .topbar-title {
-        font-size: 18px;
-      }
-      
-      .content {
-        padding: 20px;
-      }
-      
-      .stat-card {
-        padding: 16px;
-      }
-      
-      .stat-value {
-        font-size: 28px;
-      }
-      
-      .panel-header {
-        padding: 14px 18px;
-      }
-      
-      .data-table th,
-      .data-table td {
-        padding: 10px 16px;
-      }
+      .sidebar.open { left: 0; }
+      .main { width: 100%; }
+      .topbar { padding: 16px 20px; }
+      .topbar-title { font-size: 18px; }
+      .content { padding: 20px; }
+      .stat-card { padding: 16px; }
+      .stat-value { font-size: 28px; }
+      .panel-header { padding: 14px 18px; }
+      .data-table th, .data-table td { padding: 10px 16px; }
     }
 
     @media (max-width: 640px) {
-      .stats-grid {
-        grid-template-columns: 1fr;
-        gap: 12px;
-      }
-      
-      .quick-actions {
-        grid-template-columns: 1fr;
-      }
-      
-      .topbar {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 8px;
-      }
+      .stats-grid { grid-template-columns: 1fr; gap: 12px; }
+      .quick-actions { grid-template-columns: 1fr; }
+      .topbar { flex-direction: column; align-items: flex-start; gap: 8px; }
     }
 
-    @media (min-width: 769px) {
-      .menu-toggle {
-        display: none;
-      }
-    }
-
-    /* Mobile menu button (add via JS if needed) */
     .menu-toggle {
       position: fixed;
       top: 16px;
@@ -603,9 +546,7 @@
     }
 
     @media (max-width: 768px) {
-      .menu-toggle {
-        display: block;
-      }
+      .menu-toggle { display: block; }
     }
   </style>
 </head>
@@ -613,10 +554,8 @@
 
 <div class="app">
 
-  <!-- Mobile menu toggle button -->
   <button class="menu-toggle" id="menuToggle">☰</button>
 
-  <!-- ── SIDEBAR ── -->
   <aside class="sidebar" id="sidebar">
     <div class="sidebar-brand">
       <div class="sidebar-brand-eyebrow">GOD'S GRACE ULTRA</div>
@@ -646,7 +585,6 @@
     </div>
   </aside>
 
-  <!-- ── MAIN ── -->
   <div class="main">
     <div class="topbar">
       <div class="topbar-title">Dashboard</div>
@@ -655,12 +593,10 @@
 
     <div class="content">
 
-      <!-- Overdue warning -->
       <div class="overdue-banner" id="overdueBanner">
         ⚠ &nbsp; You have <strong id="overdueCount">0</strong>&nbsp;overdue invoice(s). Review them promptly.
       </div>
 
-      <!-- Stats -->
       <div class="stats-grid">
         <div class="stat-card">
           <div class="stat-label">Total Clients</div>
@@ -688,10 +624,8 @@
         </div>
       </div>
 
-      <!-- Bottom panels -->
       <div class="bottom-grid">
 
-        <!-- Recent invoices -->
         <div class="panel">
           <div class="panel-header">
             <div class="panel-title">Recent Invoices</div>
@@ -706,10 +640,8 @@
           </div>
         </div>
 
-        <!-- Quick actions + recent clients -->
         <div style="display:flex; flex-direction:column; gap:20px;">
 
-          <!-- Quick actions -->
           <div class="panel">
             <div class="panel-header">
               <div class="panel-title">Quick Actions</div>
@@ -734,7 +666,6 @@
             </div>
           </div>
 
-          <!-- Recent clients -->
           <div class="panel">
             <div class="panel-header">
               <div class="panel-title">Recent Clients</div>
@@ -756,6 +687,31 @@
 </div>
 
 <script>
+  // Supabase configuration
+  const SUPABASE_URL = 'https://gwvhryfpefhntylnmjqx.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd3dmhyeWZwZWZobnR5bG5tanF4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ3OTM4NzQsImV4cCI6MjA5MDM2OTg3NH0.AMfpcQQ-kzkjmnu_POaNR_IXqCBuVJjOoBp7cgvQcOk';
+  
+  const { createClient } = supabase;
+  const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  const db = supabaseClient;
+
+  // ── AUTH GUARD (REAL SUPABASE AUTH CHECK) ──
+  async function checkAuth() {
+    const { data: { session } } = await supabaseClient.auth.getSession();
+    
+    if (!session) {
+      // Not logged in with Supabase
+      sessionStorage.removeItem('gl_auth');
+      window.location.href = 'index.html';
+      return false;
+    }
+    
+    // Also sync sessionStorage for other page checks
+    sessionStorage.setItem('gl_auth', 'true');
+    sessionStorage.setItem('gl_user_email', session.user.email);
+    return true;
+  }
+
   // Mobile menu toggle functionality
   const menuToggle = document.getElementById('menuToggle');
   const sidebar = document.getElementById('sidebar');
@@ -765,7 +721,6 @@
       sidebar.classList.toggle('open');
     });
     
-    // Close sidebar when clicking outside on mobile
     document.addEventListener('click', (e) => {
       if (window.innerWidth <= 768) {
         if (!sidebar.contains(e.target) && !menuToggle.contains(e.target)) {
@@ -775,24 +730,15 @@
     });
   }
 
-  // ── AUTH GUARD ──
-  if (sessionStorage.getItem('gl_auth') !== 'true') {
-    window.location.href = 'index.html';
-  }
-
-  // ── SUPABASE ──
-  const SUPABASE_URL = 'https://gwvhryfpefhntylnmjqx.supabase.co';
-  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd3dmhyeWZwZWZobnR5bG5tanF4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ3OTM4NzQsImV4cCI6MjA5MDM2OTg3NH0.AMfpcQQ-kzkjmnu_POaNR_IXqCBuVJjOoBp7cgvQcOk';
-  const { createClient } = supabase;
-  const db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
   // ── DATE ──
   document.getElementById('topbarDate').textContent =
     new Date().toLocaleDateString('en-GB', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
 
-  // ── LOGOUT ──
-  document.getElementById('logoutBtn').addEventListener('click', () => {
+  // ── LOGOUT (Supabase + session) ──
+  document.getElementById('logoutBtn').addEventListener('click', async () => {
+    await supabaseClient.auth.signOut();
     sessionStorage.removeItem('gl_auth');
+    sessionStorage.removeItem('gl_user_email');
     window.location.href = 'index.html';
   });
 
@@ -808,12 +754,10 @@
     return '$' + Number(amount || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   }
 
-  // ── BADGE ──
   function badge(status) {
     return `<span class="badge badge-${status}">${status}</span>`;
   }
 
-  // ── LOAD STATS ──
   async function loadStats() {
     const [clientsRes, invoicesRes] = await Promise.all([
       db.from('clients').select('id', { count: 'exact' }),
@@ -832,7 +776,6 @@
       .filter(i => i.status !== 'paid')
       .reduce((sum, i) => sum + parseFloat(i.amount || 0), 0);
 
-    // Overdue check
     const today = new Date().toISOString().split('T')[0];
     const overdue = invoices.filter(i =>
       i.status !== 'paid' && i.due_date && i.due_date < today
@@ -856,7 +799,6 @@
     }
   }
 
-  // ── RECENT INVOICES ──
   async function loadRecentInvoices() {
     const { data, error } = await db
       .from('invoices')
@@ -896,10 +838,9 @@
             </tr>
           `).join('')}
         </tbody>
-      </table>`;
+       </table>`;
   }
 
-  // ── RECENT CLIENTS ──
   async function loadRecentClients() {
     const { data, error } = await db
       .from('clients')
@@ -935,13 +876,20 @@
             </tr>
           `).join('')}
         </tbody>
-      </table>`;
+       </table>`;
   }
 
-  // ── INIT ──
-  loadStats();
-  loadRecentInvoices();
-  loadRecentClients();
+  // ── INIT WITH AUTH CHECK ──
+  async function init() {
+    const isAuthed = await checkAuth();
+    if (!isAuthed) return;
+    
+    loadStats();
+    loadRecentInvoices();
+    loadRecentClients();
+  }
+  
+  init();
 </script>
 
 </body>
