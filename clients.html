@@ -28,7 +28,7 @@
     html, body {
       height: 100%;
       background: var(--navy-deep);
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      font-family: 'Inter', sans-serif;
       color: var(--white);
       overflow: hidden;
     }
@@ -52,7 +52,6 @@
       height: 100vh;
     }
 
-    /* ── SIDEBAR ── */
     .sidebar {
       width: var(--sidebar-w);
       background: rgba(4,7,46,0.95);
@@ -97,7 +96,7 @@
     }
 
     .nav-section-label {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      font-family: 'Inter', sans-serif;
       font-size: 9px;
       letter-spacing: 0.2em;
       color: var(--white-muted);
@@ -114,7 +113,7 @@
       border-radius: 8px;
       text-decoration: none;
       color: var(--white-muted);
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      font-family: 'Inter', sans-serif;
       font-size: 11px;
       letter-spacing: 0.05em;
       transition: background 0.2s, color 0.2s;
@@ -146,7 +145,7 @@
       background: none;
       border: 1px solid rgba(231,76,60,0.2);
       color: rgba(231,76,60,0.7);
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      font-family: 'Inter', sans-serif;
       font-size: 11px;
       letter-spacing: 0.05em;
       cursor: pointer;
@@ -159,7 +158,6 @@
       border-color: rgba(231,76,60,0.4);
     }
 
-    /* ── MAIN ── */
     .main {
       flex: 1;
       display: flex;
@@ -215,7 +213,6 @@
     .content::-webkit-scrollbar { width: 4px; }
     .content::-webkit-scrollbar-thumb { background: var(--gold-border); border-radius: 4px; }
 
-    /* ── MODAL ── */
     .modal-overlay {
       display: none;
       position: fixed;
@@ -225,12 +222,9 @@
       z-index: 100;
       align-items: center;
       justify-content: center;
-      animation: fadeIn 0.2s ease;
     }
 
     .modal-overlay.open { display: flex; }
-
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
     .modal {
       background: #080d4a;
@@ -239,13 +233,7 @@
       padding: 36px;
       width: 100%;
       max-width: 480px;
-      animation: slideUp 0.25s ease;
       position: relative;
-    }
-
-    @keyframes slideUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
     }
 
     .modal-title {
@@ -256,7 +244,7 @@
     }
 
     .modal-subtitle {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      font-family: 'Inter', sans-serif;
       font-size: 10px;
       color: var(--white-muted);
       letter-spacing: 0.05em;
@@ -271,16 +259,12 @@
       color: var(--white-muted);
       font-size: 20px;
       cursor: pointer;
-      transition: color 0.2s;
-      line-height: 1;
     }
-
-    .modal-close:hover { color: var(--white); }
 
     .form-group { margin-bottom: 18px; }
 
     .form-label {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      font-family: 'Inter', sans-serif;
       display: block;
       font-size: 9px;
       letter-spacing: 0.2em;
@@ -295,19 +279,16 @@
       border: 1px solid var(--gold-border);
       border-radius: 8px;
       padding: 12px 14px;
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      font-family: 'Inter', sans-serif;
       font-size: 12px;
       color: var(--white);
       outline: none;
-      transition: border-color 0.2s, box-shadow 0.2s;
     }
 
     .form-input:focus {
       border-color: rgba(255,215,0,0.5);
       box-shadow: 0 0 0 3px rgba(255,215,0,0.06);
     }
-
-    .form-input::placeholder { color: rgba(255,255,255,0.2); }
 
     .form-row {
       display: grid;
@@ -332,29 +313,22 @@
       letter-spacing: 0.1em;
       color: var(--navy-deep);
       cursor: pointer;
-      transition: transform 0.15s, box-shadow 0.2s;
     }
-
-    .btn-save:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(255,215,0,0.25); }
 
     .btn-cancel {
       padding: 12px 20px;
       background: none;
       border: 1px solid var(--gold-border);
       border-radius: 8px;
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      font-family: 'Inter', sans-serif;
       font-size: 11px;
       color: var(--white-muted);
       cursor: pointer;
-      transition: all 0.2s;
     }
 
-    .btn-cancel:hover { border-color: rgba(255,255,255,0.3); color: var(--white); }
-
-    /* Feedback msg */
     .form-feedback {
       display: none;
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      font-family: 'Inter', sans-serif;
       font-size: 10px;
       padding: 10px 14px;
       border-radius: 6px;
@@ -375,7 +349,6 @@
       color: var(--red);
     }
 
-    /* ── SEARCH BAR ── */
     .toolbar {
       display: flex;
       align-items: center;
@@ -397,7 +370,6 @@
       transform: translateY(-50%);
       color: var(--white-muted);
       font-size: 13px;
-      pointer-events: none;
     }
 
     .search-input {
@@ -406,36 +378,23 @@
       border: 1px solid var(--gold-border);
       border-radius: 8px;
       padding: 10px 14px 10px 38px;
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      font-family: 'Inter', sans-serif;
       font-size: 11px;
       color: var(--white);
       outline: none;
-      transition: border-color 0.2s;
     }
-
-    .search-input:focus { border-color: rgba(255,215,0,0.4); }
-    .search-input::placeholder { color: rgba(255,255,255,0.2); }
 
     .client-count {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      font-family: 'Inter', sans-serif;
       font-size: 10px;
       color: var(--white-muted);
-      letter-spacing: 0.05em;
-      margin-left: auto;
     }
 
-    /* ── CLIENTS TABLE ── */
     .table-wrap {
       background: rgba(13,18,112,0.2);
       border: 1px solid var(--gold-border);
       border-radius: 12px;
       overflow-x: auto;
-      animation: cardIn 0.4s ease both;
-    }
-
-    @keyframes cardIn {
-      from { opacity: 0; transform: translateY(12px); }
-      to { opacity: 1; transform: translateY(0); }
     }
 
     .data-table {
@@ -445,7 +404,7 @@
     }
 
     .data-table th {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      font-family: 'Inter', sans-serif;
       font-size: 9px;
       letter-spacing: 0.15em;
       color: var(--white-muted);
@@ -457,21 +416,14 @@
     }
 
     .data-table td {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      font-family: 'Inter', sans-serif;
       padding: 14px 20px;
       font-size: 11px;
       color: var(--white);
       border-bottom: 1px solid rgba(255,255,255,0.04);
-      vertical-align: middle;
     }
 
     .data-table tr:last-child td { border-bottom: none; }
-
-    .data-table tbody tr {
-      transition: background 0.15s;
-      cursor: default;
-    }
-
     .data-table tbody tr:hover td { background: rgba(255,215,0,0.025); }
 
     .client-avatar {
@@ -486,31 +438,20 @@
       font-family: 'Bebas Neue', sans-serif;
       font-size: 13px;
       color: var(--gold);
-      letter-spacing: 0.05em;
       margin-right: 10px;
       flex-shrink: 0;
     }
 
-    .client-name-cell {
-      display: flex;
-      align-items: center;
-    }
-
-    .client-name-text { 
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-      font-weight: 500; 
-    }
+    .client-name-cell { display: flex; align-items: center; }
 
     .action-btn {
       background: none;
       border: 1px solid transparent;
       border-radius: 6px;
       padding: 5px 10px;
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      font-family: 'Inter', sans-serif;
       font-size: 10px;
       cursor: pointer;
-      transition: all 0.15s;
-      letter-spacing: 0.05em;
     }
 
     .btn-edit {
@@ -518,9 +459,7 @@
       border-color: var(--gold-border);
     }
 
-    .btn-edit:hover {
-      background: var(--gold-glow);
-    }
+    .btn-edit:hover { background: var(--gold-glow); }
 
     .btn-delete {
       color: rgba(231,76,60,0.7);
@@ -531,21 +470,18 @@
     .btn-delete:hover {
       background: rgba(231,76,60,0.08);
       color: var(--red);
-      border-color: rgba(231,76,60,0.3);
     }
 
     .empty-state {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      font-family: 'Inter', sans-serif;
       padding: 60px 24px;
       text-align: center;
       color: var(--white-muted);
       font-size: 11px;
-      line-height: 2.2;
     }
 
     .empty-state-icon { font-size: 36px; margin-bottom: 12px; opacity: 0.3; }
 
-    /* Delete confirm modal */
     .confirm-modal {
       background: #080d4a;
       border: 1px solid rgba(231,76,60,0.3);
@@ -553,20 +489,11 @@
       padding: 32px;
       width: 100%;
       max-width: 360px;
-      animation: slideUp 0.25s ease;
       text-align: center;
     }
 
-    .confirm-icon { font-size: 36px; margin-bottom: 16px; }
     .confirm-title { font-family: 'Playfair Display', serif; font-size: 20px; margin-bottom: 8px; }
-    .confirm-text { 
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-      font-size: 11px; 
-      color: var(--white-muted); 
-      line-height: 1.8; 
-      margin-bottom: 24px; 
-    }
-
+    .confirm-text { font-family: 'Inter', sans-serif; font-size: 11px; color: var(--white-muted); margin-bottom: 24px; }
     .confirm-actions { display: flex; gap: 10px; justify-content: center; }
 
     .btn-danger {
@@ -576,98 +503,10 @@
       border-radius: 8px;
       font-family: 'Bebas Neue', sans-serif;
       font-size: 14px;
-      letter-spacing: 0.1em;
       color: var(--red);
       cursor: pointer;
-      transition: all 0.2s;
     }
 
-    .btn-danger:hover { background: rgba(231,76,60,0.25); }
-
-    /* ── RESPONSIVE BREAKPOINTS ── */
-    @media (max-width: 768px) {
-      .sidebar {
-        position: fixed;
-        left: -100%;
-        top: 0;
-        bottom: 0;
-        width: 80%;
-        max-width: 280px;
-        z-index: 1000;
-        transition: left 0.3s ease;
-        background: rgba(4,7,46,0.98);
-      }
-      
-      .sidebar.open {
-        left: 0;
-      }
-      
-      .main {
-        width: 100%;
-      }
-      
-      .topbar {
-        padding: 16px 20px;
-      }
-      
-      .topbar-title {
-        font-size: 18px;
-      }
-      
-      .content {
-        padding: 20px;
-      }
-      
-      .toolbar {
-        flex-direction: column;
-        align-items: stretch;
-      }
-      
-      .search-wrap {
-        max-width: 100%;
-      }
-      
-      .client-count {
-        margin-left: 0;
-        text-align: right;
-      }
-      
-      .modal {
-        padding: 24px 20px;
-        margin: 16px;
-      }
-      
-      .form-row {
-        grid-template-columns: 1fr;
-        gap: 0;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .data-table th,
-      .data-table td {
-        padding: 10px 12px;
-      }
-      
-      .client-avatar {
-        width: 28px;
-        height: 28px;
-        font-size: 11px;
-        margin-right: 8px;
-      }
-      
-      .action-btn {
-        padding: 4px 8px;
-        font-size: 9px;
-      }
-      
-      .btn-primary {
-        padding: 8px 14px;
-        font-size: 12px;
-      }
-    }
-
-    /* Mobile menu button */
     .menu-toggle {
       position: fixed;
       top: 16px;
@@ -684,9 +523,27 @@
     }
 
     @media (max-width: 768px) {
-      .menu-toggle {
-        display: block;
+      .sidebar {
+        position: fixed;
+        left: -100%;
+        top: 0;
+        bottom: 0;
+        width: 80%;
+        max-width: 280px;
+        z-index: 1000;
+        transition: left 0.3s ease;
+        background: rgba(4,7,46,0.98);
       }
+      .sidebar.open { left: 0; }
+      .main { width: 100%; }
+      .topbar { padding: 16px 20px; }
+      .topbar-title { font-size: 18px; }
+      .content { padding: 20px; }
+      .toolbar { flex-direction: column; align-items: stretch; }
+      .search-wrap { max-width: 100%; }
+      .client-count { margin-left: 0; text-align: right; }
+      .menu-toggle { display: block; }
+      .form-row { grid-template-columns: 1fr; gap: 0; }
     }
   </style>
 </head>
@@ -694,10 +551,8 @@
 
 <div class="app">
 
-  <!-- Mobile menu toggle button -->
   <button class="menu-toggle" id="menuToggle">☰</button>
 
-  <!-- SIDEBAR -->
   <aside class="sidebar" id="sidebar">
     <div class="sidebar-brand">
       <div class="sidebar-brand-eyebrow">GOD'S GRACE ULTRA</div>
@@ -715,7 +570,6 @@
     </div>
   </aside>
 
-  <!-- MAIN -->
   <div class="main">
     <div class="topbar">
       <div class="topbar-title">Clients</div>
@@ -734,58 +588,29 @@
       <div class="table-wrap">
         <table class="data-table">
           <thead>
-            <tr>
-              <th>Client</th>
-              <th>Company</th>
-              <th>Email</th>
-              <th>Phone</th>
-              <th>Actions</th>
-            </tr>
+            <tr><th>Client</th><th>Company</th><th>Email</th><th>Phone</th><th>Actions</th></tr>
           </thead>
-          <tbody id="clientsTableBody">
-            <tr><td colspan="5">
-              <div class="empty-state">
-                <div class="empty-state-icon">👤</div>
-                Loading clients...
-              </div>
-            </td></tr>
-          </tbody>
+          <tbody id="clientsTableBody">...</tbody>
         </table>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ADD / EDIT CLIENT MODAL -->
+<!-- ADD/EDIT MODAL -->
 <div class="modal-overlay" id="clientModal">
   <div class="modal">
     <button class="modal-close" id="closeModal">✕</button>
     <div class="modal-title" id="modalTitle">Add Client</div>
     <div class="modal-subtitle">Fill in the client details below</div>
-
     <div class="form-feedback" id="formFeedback"></div>
-
     <input type="hidden" id="editClientId"/>
-
-    <div class="form-group">
-      <label class="form-label">Full Name *</label>
-      <input class="form-input" id="clientName" type="text" placeholder="e.g. John Adebayo"/>
-    </div>
+    <div class="form-group"><label class="form-label">Full Name *</label><input class="form-input" id="clientName" type="text"/></div>
     <div class="form-row">
-      <div class="form-group">
-        <label class="form-label">Email</label>
-        <input class="form-input" id="clientEmail" type="email" placeholder="john@example.com"/>
-      </div>
-      <div class="form-group">
-        <label class="form-label">Phone</label>
-        <input class="form-input" id="clientPhone" type="text" placeholder="+234 800 000 0000"/>
-      </div>
+      <div class="form-group"><label class="form-label">Email</label><input class="form-input" id="clientEmail" type="email"/></div>
+      <div class="form-group"><label class="form-label">Phone</label><input class="form-input" id="clientPhone" type="text"/></div>
     </div>
-    <div class="form-group">
-      <label class="form-label">Company / Business</label>
-      <input class="form-input" id="clientCompany" type="text" placeholder="e.g. Acme Store Ltd"/>
-    </div>
-
+    <div class="form-group"><label class="form-label">Company / Business</label><input class="form-input" id="clientCompany" type="text"/></div>
     <div class="modal-actions">
       <button class="btn-cancel" id="cancelModal">Cancel</button>
       <button class="btn-save" id="saveClientBtn">SAVE CLIENT</button>
@@ -796,11 +621,8 @@
 <!-- DELETE CONFIRM MODAL -->
 <div class="modal-overlay" id="deleteModal">
   <div class="confirm-modal">
-    <div class="confirm-icon">🗑️</div>
     <div class="confirm-title">Delete Client?</div>
-    <div class="confirm-text">
-      This will permanently delete <strong id="deleteClientName"></strong> and all their associated invoices. This cannot be undone.
-    </div>
+    <div class="confirm-text">This will permanently delete <strong id="deleteClientName"></strong> and all associated invoices. This cannot be undone.</div>
     <div class="confirm-actions">
       <button class="btn-cancel" id="cancelDelete">Cancel</button>
       <button class="btn-danger" id="confirmDelete">DELETE</button>
@@ -809,132 +631,87 @@
 </div>
 
 <script>
-  // Mobile menu toggle functionality
+  // Mobile menu
   const menuToggle = document.getElementById('menuToggle');
   const sidebar = document.getElementById('sidebar');
-  
   if (menuToggle && sidebar) {
-    menuToggle.addEventListener('click', () => {
-      sidebar.classList.toggle('open');
-    });
-    
-    // Close sidebar when clicking outside on mobile
+    menuToggle.addEventListener('click', () => sidebar.classList.toggle('open'));
     document.addEventListener('click', (e) => {
-      if (window.innerWidth <= 768) {
-        if (!sidebar.contains(e.target) && !menuToggle.contains(e.target)) {
-          sidebar.classList.remove('open');
-        }
+      if (window.innerWidth <= 768 && !sidebar.contains(e.target) && !menuToggle.contains(e.target)) {
+        sidebar.classList.remove('open');
       }
     });
-  }
-
-  // ── AUTH GUARD ──
-  if (sessionStorage.getItem('gl_auth') !== 'true') {
-    window.location.href = 'index.html';
   }
 
   // ── SUPABASE ──
   const SUPABASE_URL = 'https://gwvhryfpefhntylnmjqx.supabase.co';
   const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd3dmhyeWZwZWZobnR5bG5tanF4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ3OTM4NzQsImV4cCI6MjA5MDM2OTg3NH0.AMfpcQQ-kzkjmnu_POaNR_IXqCBuVJjOoBp7cgvQcOk';
   const { createClient } = supabase;
-  const db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  const db = supabaseClient;
 
-  // ── ELEMENTS ──
-  const tbody        = document.getElementById('clientsTableBody');
-  const searchInput  = document.getElementById('searchInput');
-  const clientCount  = document.getElementById('clientCount');
-  const clientModal  = document.getElementById('clientModal');
-  const deleteModal  = document.getElementById('deleteModal');
+  // ── REAL AUTH GUARD (Supabase) ──
+  async function checkAuth() {
+    const { data: { session } } = await supabaseClient.auth.getSession();
+    if (!session) {
+      sessionStorage.removeItem('gl_auth');
+      window.location.href = 'index.html';
+      return false;
+    }
+    sessionStorage.setItem('gl_auth', 'true');
+    return true;
+  }
+
+  // ── LOGOUT (Supabase) ──
+  document.getElementById('logoutBtn').addEventListener('click', async () => {
+    await supabaseClient.auth.signOut();
+    sessionStorage.removeItem('gl_auth');
+    window.location.href = 'index.html';
+  });
+
+  // ── CRUD FUNCTIONS (same as before) ──
+  const tbody = document.getElementById('clientsTableBody');
+  const searchInput = document.getElementById('searchInput');
+  const clientCount = document.getElementById('clientCount');
+  const clientModal = document.getElementById('clientModal');
+  const deleteModal = document.getElementById('deleteModal');
   const formFeedback = document.getElementById('formFeedback');
 
   let allClients = [];
   let deleteTargetId = null;
 
-  // ── LOGOUT ──
-  document.getElementById('logoutBtn').addEventListener('click', () => {
-    sessionStorage.removeItem('gl_auth');
-    window.location.href = 'index.html';
-  });
-
-  // ── INITIALS AVATAR ──
   function initials(name) {
     return name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
   }
 
-  // ── RENDER TABLE ──
   function renderTable(clients) {
     clientCount.textContent = `${clients.length} client${clients.length !== 1 ? 's' : ''}`;
-
     if (clients.length === 0) {
-      tbody.innerHTML = `<tr><td colspan="5">
-        <div class="empty-state">
-          <div class="empty-state-icon">👤</div>
-          No clients found.<br>Click <strong style="color:var(--gold)">Add Client</strong> to get started.
-        </div>
-      </td></tr>`;
+      tbody.innerHTML = `<tr><td colspan="5"><div class="empty-state"><div class="empty-state-icon">👤</div>No clients found.<br>Click <strong style="color:var(--gold)">Add Client</strong> to get started.</div></td></tr>`;
       return;
     }
-
     tbody.innerHTML = clients.map(c => `
       <tr>
-        <td>
-          <div class="client-name-cell">
-            <div class="client-avatar">${initials(c.name)}</div>
-            <span class="client-name-text">${c.name}</span>
-          </div>
-        </td>
+        <td><div class="client-name-cell"><div class="client-avatar">${initials(c.name)}</div><span>${c.name}</span></div></td>
         <td style="color:var(--white-muted)">${c.company || '—'}</td>
         <td style="color:var(--white-muted);font-size:10px">${c.email || '—'}</td>
         <td style="color:var(--white-muted);font-size:10px">${c.phone || '—'}</td>
-        <td>
-          <button class="action-btn btn-edit" onclick="openEdit('${c.id}')">Edit</button>
-          <button class="action-btn btn-delete" onclick="openDelete('${c.id}','${c.name.replace(/'/g,"\\'")}')">Delete</button>
-        </td>
+        <td><button class="action-btn btn-edit" onclick="openEdit('${c.id}')">Edit</button><button class="action-btn btn-delete" onclick="openDelete('${c.id}','${c.name.replace(/'/g,"\\'")}')">Delete</button></td>
       </tr>
     `).join('');
   }
 
-  // ── LOAD CLIENTS ──
   async function loadClients() {
-    const { data, error } = await db
-      .from('clients')
-      .select('*')
-      .order('created_at', { ascending: false });
-
-    if (error) {
-      tbody.innerHTML = `<tr><td colspan="5"><div class="empty-state">Failed to load clients. Please refresh.</div></td></tr>`;
-      return;
-    }
-
-    allClients = data || [];
-    renderTable(allClients);
+    const { data, error } = await db.from('clients').select('*').order('created_at', { ascending: false });
+    if (!error) { allClients = data || []; renderTable(allClients); }
   }
 
-  // ── SEARCH ──
   searchInput.addEventListener('input', () => {
     const q = searchInput.value.toLowerCase();
-    const filtered = allClients.filter(c =>
-      c.name.toLowerCase().includes(q) ||
-      (c.company || '').toLowerCase().includes(q) ||
-      (c.email || '').toLowerCase().includes(q)
-    );
-    renderTable(filtered);
+    renderTable(allClients.filter(c => c.name.toLowerCase().includes(q) || (c.company || '').toLowerCase().includes(q) || (c.email || '').toLowerCase().includes(q)));
   });
 
-  // ── MODAL OPEN/CLOSE ──
-  function openAddModal() {
-    document.getElementById('modalTitle').textContent = 'Add Client';
-    document.getElementById('editClientId').value = '';
-    document.getElementById('clientName').value = '';
-    document.getElementById('clientEmail').value = '';
-    document.getElementById('clientPhone').value = '';
-    document.getElementById('clientCompany').value = '';
-    hideFeedback();
-    clientModal.classList.add('open');
-    document.getElementById('clientName').focus();
-  }
-
-  function openEdit(id) {
+  window.openEdit = (id) => {
     const c = allClients.find(x => x.id === id);
     if (!c) return;
     document.getElementById('modalTitle').textContent = 'Edit Client';
@@ -943,105 +720,65 @@
     document.getElementById('clientEmail').value = c.email || '';
     document.getElementById('clientPhone').value = c.phone || '';
     document.getElementById('clientCompany').value = c.company || '';
-    hideFeedback();
-    clientModal.classList.add('open');
-  }
-
-  function closeClientModal() { clientModal.classList.remove('open'); }
-
-  document.getElementById('openAddModal').addEventListener('click', openAddModal);
-  document.getElementById('closeModal').addEventListener('click', closeClientModal);
-  document.getElementById('cancelModal').addEventListener('click', closeClientModal);
-  clientModal.addEventListener('click', e => { if (e.target === clientModal) closeClientModal(); });
-
-  // ── FEEDBACK ──
-  function showFeedback(type, msg) {
-    formFeedback.className = `form-feedback ${type}`;
-    formFeedback.textContent = msg;
-  }
-
-  function hideFeedback() {
     formFeedback.className = 'form-feedback';
-    formFeedback.textContent = '';
-  }
+    clientModal.classList.add('open');
+  };
 
-  // ── SAVE CLIENT ──
-  document.getElementById('saveClientBtn').addEventListener('click', async () => {
-    const id      = document.getElementById('editClientId').value;
-    const name    = document.getElementById('clientName').value.trim();
-    const email   = document.getElementById('clientEmail').value.trim();
-    const phone   = document.getElementById('clientPhone').value.trim();
-    const company = document.getElementById('clientCompany').value.trim();
-
-    if (!name) { showFeedback('error', 'Client name is required.'); return; }
-
-    const saveBtn = document.getElementById('saveClientBtn');
-    saveBtn.textContent = 'SAVING...';
-    saveBtn.disabled = true;
-
-    let error;
-
-    if (id) {
-      // UPDATE
-      ({ error } = await db.from('clients').update({ name, email, phone, company }).eq('id', id));
-    } else {
-      // INSERT
-      ({ error } = await db.from('clients').insert([{ name, email, phone, company }]));
-    }
-
-    saveBtn.textContent = 'SAVE CLIENT';
-    saveBtn.disabled = false;
-
-    if (error) {
-      showFeedback('error', 'Something went wrong. Please try again.');
-      return;
-    }
-
-    showFeedback('success', id ? 'Client updated successfully.' : 'Client added successfully.');
-    setTimeout(() => {
-      closeClientModal();
-      loadClients();
-    }, 800);
-  });
-
-  // ── DELETE ──
-  function openDelete(id, name) {
+  window.openDelete = (id, name) => {
     deleteTargetId = id;
     document.getElementById('deleteClientName').textContent = name;
     deleteModal.classList.add('open');
-  }
+  };
 
-  document.getElementById('cancelDelete').addEventListener('click', () => {
-    deleteModal.classList.remove('open');
-    deleteTargetId = null;
+  document.getElementById('openAddModal').addEventListener('click', () => {
+    document.getElementById('modalTitle').textContent = 'Add Client';
+    document.getElementById('editClientId').value = '';
+    document.getElementById('clientName').value = '';
+    document.getElementById('clientEmail').value = '';
+    document.getElementById('clientPhone').value = '';
+    document.getElementById('clientCompany').value = '';
+    formFeedback.className = 'form-feedback';
+    clientModal.classList.add('open');
   });
 
-  deleteModal.addEventListener('click', e => {
-    if (e.target === deleteModal) {
-      deleteModal.classList.remove('open');
-      deleteTargetId = null;
-    }
+  document.getElementById('closeModal').addEventListener('click', () => clientModal.classList.remove('open'));
+  document.getElementById('cancelModal').addEventListener('click', () => clientModal.classList.remove('open'));
+  document.getElementById('cancelDelete').addEventListener('click', () => { deleteModal.classList.remove('open'); deleteTargetId = null; });
+
+  document.getElementById('saveClientBtn').addEventListener('click', async () => {
+    const id = document.getElementById('editClientId').value;
+    const name = document.getElementById('clientName').value.trim();
+    if (!name) { formFeedback.className = 'form-feedback error'; formFeedback.textContent = 'Client name is required.'; return; }
+    const email = document.getElementById('clientEmail').value.trim();
+    const phone = document.getElementById('clientPhone').value.trim();
+    const company = document.getElementById('clientCompany').value.trim();
+    const btn = document.getElementById('saveClientBtn');
+    btn.textContent = 'SAVING...'; btn.disabled = true;
+    let error;
+    if (id) ({ error } = await db.from('clients').update({ name, email, phone, company }).eq('id', id));
+    else ({ error } = await db.from('clients').insert([{ name, email, phone, company }]));
+    btn.textContent = 'SAVE CLIENT'; btn.disabled = false;
+    if (error) { formFeedback.className = 'form-feedback error'; formFeedback.textContent = 'Something went wrong.'; return; }
+    formFeedback.className = 'form-feedback success'; formFeedback.textContent = id ? 'Client updated.' : 'Client added.';
+    setTimeout(() => { clientModal.classList.remove('open'); loadClients(); }, 800);
   });
 
   document.getElementById('confirmDelete').addEventListener('click', async () => {
     if (!deleteTargetId) return;
     const btn = document.getElementById('confirmDelete');
-    btn.textContent = 'DELETING...';
-    btn.disabled = true;
-
-    const { error } = await db.from('clients').delete().eq('id', deleteTargetId);
-
-    btn.textContent = 'DELETE';
-    btn.disabled = false;
+    btn.textContent = 'DELETING...'; btn.disabled = true;
+    await db.from('clients').delete().eq('id', deleteTargetId);
     deleteModal.classList.remove('open');
     deleteTargetId = null;
-
-    if (!error) loadClients();
+    loadClients();
   });
 
   // ── INIT ──
-  loadClients();
+  async function init() {
+    const authed = await checkAuth();
+    if (authed) loadClients();
+  }
+  init();
 </script>
-
 </body>
 </html>
