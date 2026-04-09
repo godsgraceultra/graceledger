@@ -27,7 +27,7 @@
     html, body {
       height: 100%;
       background: var(--navy-deep);
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      font-family: 'Inter', sans-serif;
       color: var(--white);
       overflow: hidden;
     }
@@ -51,7 +51,6 @@
       height: 100vh;
     }
 
-    /* ── SIDEBAR ── */
     .sidebar {
       width: var(--sidebar-w);
       background: rgba(4,7,46,0.95);
@@ -95,7 +94,7 @@
     }
 
     .nav-section-label {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      font-family: 'Inter', sans-serif;
       font-size: 9px;
       letter-spacing: 0.2em;
       color: var(--white-muted);
@@ -112,7 +111,7 @@
       border-radius: 8px;
       text-decoration: none;
       color: var(--white-muted);
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      font-family: 'Inter', sans-serif;
       font-size: 11px;
       letter-spacing: 0.05em;
       transition: background 0.2s, color 0.2s;
@@ -144,7 +143,7 @@
       background: none;
       border: 1px solid rgba(231,76,60,0.2);
       color: rgba(231,76,60,0.7);
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      font-family: 'Inter', sans-serif;
       font-size: 11px;
       cursor: pointer;
       transition: all 0.2s;
@@ -156,7 +155,6 @@
       border-color: rgba(231,76,60,0.4);
     }
 
-    /* ── MAIN ── */
     .main {
       flex: 1;
       display: flex;
@@ -182,7 +180,7 @@
     }
 
     .topbar-back {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      font-family: 'Inter', sans-serif;
       font-size: 10px;
       color: var(--white-muted);
       text-decoration: none;
@@ -201,7 +199,6 @@
     .content::-webkit-scrollbar { width: 4px; }
     .content::-webkit-scrollbar-thumb { background: var(--gold-border); border-radius: 4px; }
 
-    /* ── FORM LAYOUT ── */
     .form-grid {
       display: grid;
       grid-template-columns: 1fr 380px;
@@ -209,7 +206,6 @@
       max-width: 1000px;
     }
 
-    /* ── CARDS ── */
     .card {
       background: rgba(13,18,112,0.2);
       border: 1px solid var(--gold-border);
@@ -217,8 +213,6 @@
       overflow: hidden;
       animation: cardIn 0.4s ease both;
     }
-
-    .card:nth-child(2) { animation-delay: 0.1s; }
 
     @keyframes cardIn {
       from { opacity: 0; transform: translateY(14px); }
@@ -243,12 +237,11 @@
 
     .card-body { padding: 24px; }
 
-    /* ── FORM ELEMENTS ── */
     .form-group { margin-bottom: 20px; }
     .form-group:last-child { margin-bottom: 0; }
 
     .form-label {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      font-family: 'Inter', sans-serif;
       display: block;
       font-size: 9px;
       letter-spacing: 0.2em;
@@ -265,7 +258,7 @@
       border: 1px solid var(--gold-border);
       border-radius: 8px;
       padding: 12px 14px;
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      font-family: 'Inter', sans-serif;
       font-size: 12px;
       color: var(--white);
       outline: none;
@@ -279,9 +272,6 @@
       box-shadow: 0 0 0 3px rgba(255,215,0,0.06);
     }
 
-    .form-input::placeholder,
-    .form-textarea::placeholder { color: rgba(255,255,255,0.2); }
-
     .form-select {
       appearance: none;
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='rgba(255,215,0,0.5)' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
@@ -290,10 +280,7 @@
       cursor: pointer;
     }
 
-    .form-select option {
-      background: #080d4a;
-      color: var(--white);
-    }
+    .form-select option { background: #080d4a; color: var(--white); }
 
     .form-textarea {
       resize: vertical;
@@ -307,7 +294,6 @@
       gap: 14px;
     }
 
-    /* Invoice number display */
     .invoice-number-display {
       background: rgba(255,215,0,0.06);
       border: 1px solid var(--gold-border);
@@ -319,11 +305,7 @@
       color: var(--gold);
     }
 
-    /* Amount input with currency symbol */
-    .amount-wrap {
-      position: relative;
-    }
-
+    .amount-wrap { position: relative; }
     .amount-currency {
       position: absolute;
       left: 14px;
@@ -331,24 +313,17 @@
       transform: translateY(-50%);
       color: var(--gold);
       font-size: 13px;
-      pointer-events: none;
     }
+    .amount-wrap .form-input { padding-left: 28px; }
 
-    .amount-wrap .form-input {
-      padding-left: 28px;
-    }
-
-    /* ── SUMMARY CARD ── */
     .summary-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 12px 0;
       border-bottom: 1px solid rgba(255,255,255,0.05);
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
       font-size: 11px;
     }
-
     .summary-row:last-of-type { border-bottom: none; }
     .summary-label { color: var(--white-muted); }
     .summary-value { color: var(--white); font-weight: 500; }
@@ -361,14 +336,12 @@
       margin-top: 8px;
       border-top: 1px solid var(--gold-border);
     }
-
     .summary-total-label {
       font-family: 'Bebas Neue', sans-serif;
       font-size: 13px;
       letter-spacing: 0.1em;
       color: var(--white-muted);
     }
-
     .summary-total-value {
       font-family: 'Bebas Neue', sans-serif;
       font-size: 28px;
@@ -376,19 +349,13 @@
       color: var(--gold);
     }
 
-    /* Status selector pills */
-    .status-pills {
-      display: flex;
-      gap: 8px;
-    }
-
+    .status-pills { display: flex; gap: 8px; }
     .status-pill {
       flex: 1;
       padding: 10px 8px;
       border-radius: 8px;
       border: 1px solid var(--gold-border);
       background: none;
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
       font-size: 10px;
       letter-spacing: 0.08em;
       text-transform: uppercase;
@@ -397,26 +364,22 @@
       color: var(--white-muted);
       text-align: center;
     }
-
     .status-pill.active-unpaid {
       background: rgba(231,76,60,0.12);
       border-color: rgba(231,76,60,0.4);
       color: #e74c3c;
     }
-
     .status-pill.active-pending {
       background: rgba(243,156,18,0.12);
       border-color: rgba(243,156,18,0.4);
       color: #f39c12;
     }
-
     .status-pill.active-paid {
       background: rgba(46,204,113,0.12);
       border-color: rgba(46,204,113,0.4);
       color: #2ecc71;
     }
 
-    /* Submit button */
     .btn-submit {
       width: 100%;
       padding: 15px;
@@ -428,44 +391,28 @@
       letter-spacing: 0.15em;
       color: var(--navy-deep);
       cursor: pointer;
-      transition: transform 0.15s, box-shadow 0.2s, opacity 0.2s;
+      transition: transform 0.15s, box-shadow 0.2s;
       box-shadow: 0 4px 20px rgba(255,215,0,0.2);
       margin-top: 20px;
     }
+    .btn-submit:hover { transform: translateY(-1px); box-shadow: 0 8px 28px rgba(255,215,0,0.3); }
+    .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; }
 
-    .btn-submit:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 8px 28px rgba(255,215,0,0.3);
-    }
-
-    .btn-submit:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-      transform: none;
-    }
-
-    /* Feedback */
     .feedback {
       display: none;
       align-items: center;
       gap: 10px;
       padding: 12px 16px;
       border-radius: 8px;
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
       font-size: 11px;
       margin-top: 14px;
-      animation: fadeIn 0.3s ease;
     }
-
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
     .feedback.success {
       display: flex;
       background: rgba(46,204,113,0.1);
       border: 1px solid rgba(46,204,113,0.25);
       color: var(--green);
     }
-
     .feedback.error {
       display: flex;
       background: rgba(231,76,60,0.1);
@@ -473,114 +420,20 @@
       color: var(--red);
     }
 
-    /* Client preview */
     .client-preview {
       display: none;
       background: var(--gold-glow);
       border: 1px solid var(--gold-border);
       border-radius: 8px;
       padding: 12px 14px;
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
       font-size: 10px;
       color: var(--white-muted);
       margin-top: 8px;
       line-height: 1.8;
     }
-
     .client-preview.show { display: block; }
     .client-preview strong { color: var(--white); }
 
-    /* ── RESPONSIVE BREAKPOINTS ── */
-    @media (max-width: 900px) {
-      .form-grid {
-        grid-template-columns: 1fr;
-        max-width: 600px;
-        margin: 0 auto;
-      }
-      
-      .form-row {
-        grid-template-columns: 1fr;
-        gap: 0;
-      }
-    }
-
-    @media (max-width: 768px) {
-      .sidebar {
-        position: fixed;
-        left: -100%;
-        top: 0;
-        bottom: 0;
-        width: 80%;
-        max-width: 280px;
-        z-index: 1000;
-        transition: left 0.3s ease;
-        background: rgba(4,7,46,0.98);
-      }
-      
-      .sidebar.open {
-        left: 0;
-      }
-      
-      .main {
-        width: 100%;
-      }
-      
-      .topbar {
-        padding: 16px 20px;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 8px;
-      }
-      
-      .topbar-title {
-        font-size: 18px;
-      }
-      
-      .content {
-        padding: 20px;
-      }
-      
-      .card-header {
-        padding: 14px 18px;
-      }
-      
-      .card-body {
-        padding: 18px;
-      }
-      
-      .status-pills {
-        flex-direction: column;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .card-body {
-        padding: 14px;
-      }
-      
-      .form-input,
-      .form-select,
-      .form-textarea {
-        padding: 10px 12px;
-        font-size: 11px;
-      }
-      
-      .invoice-number-display {
-        font-size: 14px;
-        padding: 10px 12px;
-      }
-      
-      .btn-submit {
-        padding: 12px;
-        font-size: 14px;
-      }
-      
-      .summary-total-value {
-        font-size: 22px;
-      }
-    }
-
-    /* Mobile menu button */
     .menu-toggle {
       position: fixed;
       top: 16px;
@@ -596,10 +449,39 @@
       display: none;
     }
 
+    @media (max-width: 900px) {
+      .form-grid { grid-template-columns: 1fr; max-width: 600px; margin: 0 auto; }
+      .form-row { grid-template-columns: 1fr; gap: 0; }
+    }
+
     @media (max-width: 768px) {
-      .menu-toggle {
-        display: block;
+      .sidebar {
+        position: fixed;
+        left: -100%;
+        top: 0;
+        bottom: 0;
+        width: 80%;
+        max-width: 280px;
+        z-index: 1000;
+        transition: left 0.3s ease;
+        background: rgba(4,7,46,0.98);
       }
+      .sidebar.open { left: 0; }
+      .main { width: 100%; }
+      .topbar { padding: 16px 20px; flex-direction: column; align-items: flex-start; gap: 8px; }
+      .topbar-title { font-size: 18px; }
+      .content { padding: 20px; }
+      .card-header { padding: 14px 18px; }
+      .card-body { padding: 18px; }
+      .status-pills { flex-direction: column; }
+      .menu-toggle { display: block; }
+    }
+
+    @media (max-width: 480px) {
+      .card-body { padding: 14px; }
+      .invoice-number-display { font-size: 14px; }
+      .btn-submit { padding: 12px; font-size: 14px; }
+      .summary-total-value { font-size: 22px; }
     }
   </style>
 </head>
@@ -607,10 +489,8 @@
 
 <div class="app">
 
-  <!-- Mobile menu toggle button -->
   <button class="menu-toggle" id="menuToggle">☰</button>
 
-  <!-- SIDEBAR -->
   <aside class="sidebar" id="sidebar">
     <div class="sidebar-brand">
       <div class="sidebar-brand-eyebrow">GOD'S GRACE ULTRA</div>
@@ -628,7 +508,6 @@
     </div>
   </aside>
 
-  <!-- MAIN -->
   <div class="main">
     <div class="topbar">
       <div class="topbar-title">New Invoice</div>
@@ -638,106 +517,43 @@
     <div class="content">
       <div class="form-grid">
 
-        <!-- LEFT: Invoice Details -->
         <div style="display:flex;flex-direction:column;gap:20px;">
-
-          <!-- Client & Invoice Info -->
           <div class="card">
-            <div class="card-header">
-              <span class="card-header-icon">👤</span>
-              <span class="card-title">Client & Invoice Details</span>
-            </div>
+            <div class="card-header"><span class="card-header-icon">👤</span><span class="card-title">Client & Invoice Details</span></div>
             <div class="card-body">
-
-              <div class="form-group">
-                <label class="form-label">Invoice Number</label>
-                <div class="invoice-number-display" id="invoiceNumberDisplay">GGU-0001</div>
-              </div>
-
+              <div class="form-group"><label class="form-label">Invoice Number</label><div class="invoice-number-display" id="invoiceNumberDisplay">GGU-0001</div></div>
               <div class="form-group">
                 <label class="form-label">Select Client *</label>
-                <select class="form-select" id="clientSelect">
-                  <option value="">— Choose a client —</option>
-                </select>
+                <select class="form-select" id="clientSelect"><option value="">— Choose a client —</option></select>
                 <div class="client-preview" id="clientPreview"></div>
               </div>
-
               <div class="form-row">
-                <div class="form-group">
-                  <label class="form-label">Due Date</label>
-                  <input class="form-input" type="date" id="dueDate"/>
-                </div>
-                <div class="form-group">
-                  <label class="form-label">Amount *</label>
-                  <div class="amount-wrap">
-                    <span class="amount-currency">$</span>
-                    <input class="form-input" type="number" id="amount" placeholder="0.00" min="0" step="0.01"/>
-                  </div>
-                </div>
+                <div class="form-group"><label class="form-label">Due Date</label><input class="form-input" type="date" id="dueDate"/></div>
+                <div class="form-group"><label class="form-label">Amount *</label><div class="amount-wrap"><span class="amount-currency">$</span><input class="form-input" type="number" id="amount" placeholder="0.00" min="0" step="0.01"/></div></div>
               </div>
-
             </div>
           </div>
-
-          <!-- Service Description -->
           <div class="card">
-            <div class="card-header">
-              <span class="card-header-icon">📝</span>
-              <span class="card-title">Service Description</span>
-            </div>
+            <div class="card-header"><span class="card-header-icon">📝</span><span class="card-title">Service Description</span></div>
             <div class="card-body">
-              <div class="form-group">
-                <label class="form-label">What did you deliver?</label>
-                <textarea class="form-textarea" id="serviceDescription"
-                  placeholder="e.g. Data analysis and dashboard build for Q1 2025 performance review. Delivered 3 dashboards, 1 executive report, and a 45-minute walkthrough session."></textarea>
-              </div>
+              <div class="form-group"><label class="form-label">What did you deliver?</label><textarea class="form-textarea" id="serviceDescription" placeholder="e.g. Data analysis and dashboard build for Q1 2025 performance review."></textarea></div>
             </div>
           </div>
-
         </div>
 
-        <!-- RIGHT: Summary -->
         <div style="display:flex;flex-direction:column;gap:20px;">
-
-          <!-- Invoice Summary -->
           <div class="card">
-            <div class="card-header">
-              <span class="card-header-icon">📊</span>
-              <span class="card-title">Invoice Summary</span>
-            </div>
+            <div class="card-header"><span class="card-header-icon">📊</span><span class="card-title">Invoice Summary</span></div>
             <div class="card-body">
-
-              <div class="summary-row">
-                <span class="summary-label">Invoice #</span>
-                <span class="summary-value" id="summaryNumber">GGU-0001</span>
-              </div>
-              <div class="summary-row">
-                <span class="summary-label">Client</span>
-                <span class="summary-value" id="summaryClient">—</span>
-              </div>
-              <div class="summary-row">
-                <span class="summary-label">Due Date</span>
-                <span class="summary-value" id="summaryDue">—</span>
-              </div>
-              <div class="summary-row">
-                <span class="summary-label">Status</span>
-                <span class="summary-value" id="summaryStatus">Unpaid</span>
-              </div>
-
-              <div class="summary-total">
-                <span class="summary-total-label">Total Amount</span>
-                <span class="summary-total-value" id="summaryAmount">$0.00</span>
-              </div>
-
+              <div class="summary-row"><span class="summary-label">Invoice #</span><span class="summary-value" id="summaryNumber">GGU-0001</span></div>
+              <div class="summary-row"><span class="summary-label">Client</span><span class="summary-value" id="summaryClient">—</span></div>
+              <div class="summary-row"><span class="summary-label">Due Date</span><span class="summary-value" id="summaryDue">—</span></div>
+              <div class="summary-row"><span class="summary-label">Status</span><span class="summary-value" id="summaryStatus">Unpaid</span></div>
+              <div class="summary-total"><span class="summary-total-label">Total Amount</span><span class="summary-total-value" id="summaryAmount">$0.00</span></div>
             </div>
           </div>
-
-          <!-- Payment Status -->
           <div class="card">
-            <div class="card-header">
-              <span class="card-header-icon">💳</span>
-              <span class="card-title">Payment Status</span>
-            </div>
+            <div class="card-header"><span class="card-header-icon">💳</span><span class="card-title">Payment Status</span></div>
             <div class="card-body">
               <div class="status-pills">
                 <button class="status-pill active-unpaid" data-status="unpaid" id="pill-unpaid">Unpaid</button>
@@ -747,15 +563,12 @@
               <input type="hidden" id="selectedStatus" value="unpaid"/>
             </div>
           </div>
-
-          <!-- Submit -->
           <div class="card">
             <div class="card-body">
               <button class="btn-submit" id="submitBtn">CREATE INVOICE</button>
               <div class="feedback" id="feedback"></div>
             </div>
           </div>
-
         </div>
       </div>
     </div>
@@ -763,38 +576,40 @@
 </div>
 
 <script>
-  // Mobile menu toggle functionality
+  // Mobile menu
   const menuToggle = document.getElementById('menuToggle');
   const sidebar = document.getElementById('sidebar');
-  
   if (menuToggle && sidebar) {
-    menuToggle.addEventListener('click', () => {
-      sidebar.classList.toggle('open');
-    });
-    
-    // Close sidebar when clicking outside on mobile
+    menuToggle.addEventListener('click', () => sidebar.classList.toggle('open'));
     document.addEventListener('click', (e) => {
-      if (window.innerWidth <= 768) {
-        if (!sidebar.contains(e.target) && !menuToggle.contains(e.target)) {
-          sidebar.classList.remove('open');
-        }
+      if (window.innerWidth <= 768 && !sidebar.contains(e.target) && !menuToggle.contains(e.target)) {
+        sidebar.classList.remove('open');
       }
     });
-  }
-
-  // ── AUTH GUARD ──
-  if (sessionStorage.getItem('gl_auth') !== 'true') {
-    window.location.href = 'index.html';
   }
 
   // ── SUPABASE ──
   const SUPABASE_URL = 'https://gwvhryfpefhntylnmjqx.supabase.co';
   const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd3dmhyeWZwZWZobnR5bG5tanF4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ3OTM4NzQsImV4cCI6MjA5MDM2OTg3NH0.AMfpcQQ-kzkjmnu_POaNR_IXqCBuVJjOoBp7cgvQcOk';
   const { createClient } = supabase;
-  const db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  const db = supabaseClient;
 
-  // ── LOGOUT ──
-  document.getElementById('logoutBtn').addEventListener('click', () => {
+  // ── REAL AUTH GUARD (Supabase) ──
+  async function checkAuth() {
+    const { data: { session } } = await supabaseClient.auth.getSession();
+    if (!session) {
+      sessionStorage.removeItem('gl_auth');
+      window.location.href = 'index.html';
+      return false;
+    }
+    sessionStorage.setItem('gl_auth', 'true');
+    return true;
+  }
+
+  // ── LOGOUT (Supabase) ──
+  document.getElementById('logoutBtn').addEventListener('click', async () => {
+    await supabaseClient.auth.signOut();
     sessionStorage.removeItem('gl_auth');
     window.location.href = 'index.html';
   });
@@ -802,92 +617,41 @@
   let clients = [];
   let nextInvoiceNumber = 'GGU-0001';
 
-  // ── FORMAT CURRENCY ──
-  function formatCurrency(val) {
-    const n = parseFloat(val) || 0;
-    return '$' + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-  }
+  function formatCurrency(val) { return '$' + (parseFloat(val) || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+  function formatDate(val) { if (!val) return '—'; const d = new Date(val + 'T00:00:00'); return d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }); }
 
-  // ── FORMAT DATE ──
-  function formatDate(val) {
-    if (!val) return '—';
-    const d = new Date(val + 'T00:00:00');
-    return d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
-  }
-
-  // ── GENERATE INVOICE NUMBER ──
   async function generateInvoiceNumber() {
-    const { data } = await db
-      .from('invoices')
-      .select('invoice_number')
-      .order('created_at', { ascending: false })
-      .limit(1);
-
+    const { data } = await db.from('invoices').select('invoice_number').order('created_at', { ascending: false }).limit(1);
     let next = 1;
-    if (data && data.length > 0) {
-      const last = data[0].invoice_number;
-      const match = last.match(/GGU-(\d+)/);
-      if (match) next = parseInt(match[1]) + 1;
-    }
-
+    if (data && data.length > 0) { const last = data[0].invoice_number; const match = last.match(/GGU-(\d+)/); if (match) next = parseInt(match[1]) + 1; }
     nextInvoiceNumber = 'GGU-' + String(next).padStart(4, '0');
     document.getElementById('invoiceNumberDisplay').textContent = nextInvoiceNumber;
     document.getElementById('summaryNumber').textContent = nextInvoiceNumber;
   }
 
-  // ── LOAD CLIENTS ──
   async function loadClients() {
-    const { data } = await db
-      .from('clients')
-      .select('id, name, company, email, phone')
-      .order('name');
-
+    const { data } = await db.from('clients').select('id, name, company, email, phone').order('name');
     clients = data || [];
     const select = document.getElementById('clientSelect');
-
-    if (clients.length === 0) {
-      select.innerHTML = '<option value="">— No clients yet. Add one first. —</option>';
-      return;
-    }
-
-    select.innerHTML = '<option value="">— Choose a client —</option>' +
-      clients.map(c => `<option value="${c.id}">${c.name}${c.company ? ' · ' + c.company : ''}</option>`).join('');
+    if (clients.length === 0) { select.innerHTML = '<option value="">— No clients yet. Add one first. —</option>'; return; }
+    select.innerHTML = '<option value="">— Choose a client —</option>' + clients.map(c => `<option value="${c.id}">${c.name}${c.company ? ' · ' + c.company : ''}</option>`).join('');
   }
 
-  // ── CLIENT SELECT ──
-  document.getElementById('clientSelect').addEventListener('change', function () {
+  document.getElementById('clientSelect').addEventListener('change', function() {
     const id = this.value;
     const preview = document.getElementById('clientPreview');
     const summaryClient = document.getElementById('summaryClient');
-
-    if (!id) {
-      preview.classList.remove('show');
-      summaryClient.textContent = '—';
-      return;
-    }
-
+    if (!id) { preview.classList.remove('show'); summaryClient.textContent = '—'; return; }
     const c = clients.find(x => x.id === id);
     if (!c) return;
-
     preview.classList.add('show');
-    preview.innerHTML = `
-      <strong>${c.name}</strong><br>
-      ${c.company ? c.company + '<br>' : ''}
-      ${c.email || ''} ${c.phone ? '· ' + c.phone : ''}
-    `;
+    preview.innerHTML = `<strong>${c.name}</strong><br>${c.company ? c.company + '<br>' : ''}${c.email || ''} ${c.phone ? '· ' + c.phone : ''}`;
     summaryClient.textContent = c.name;
   });
 
-  // ── LIVE SUMMARY UPDATES ──
-  document.getElementById('amount').addEventListener('input', function () {
-    document.getElementById('summaryAmount').textContent = formatCurrency(this.value);
-  });
+  document.getElementById('amount').addEventListener('input', function() { document.getElementById('summaryAmount').textContent = formatCurrency(this.value); });
+  document.getElementById('dueDate').addEventListener('change', function() { document.getElementById('summaryDue').textContent = formatDate(this.value); });
 
-  document.getElementById('dueDate').addEventListener('change', function () {
-    document.getElementById('summaryDue').textContent = formatDate(this.value);
-  });
-
-  // ── STATUS PILLS ──
   const pills = document.querySelectorAll('.status-pill');
   pills.forEach(pill => {
     pill.addEventListener('click', () => {
@@ -900,27 +664,20 @@
     });
   });
 
-  // ── FEEDBACK ──
-  function showFeedback(type, msg) {
-    const el = document.getElementById('feedback');
-    el.className = `feedback ${type}`;
-    el.innerHTML = (type === 'success' ? '✅' : '⚠') + ' &nbsp;' + msg;
-  }
+  function showFeedback(type, msg) { const el = document.getElementById('feedback'); el.className = `feedback ${type}`; el.innerHTML = (type === 'success' ? '✅' : '⚠') + ' &nbsp;' + msg; }
 
-  // ── SUBMIT ──
   document.getElementById('submitBtn').addEventListener('click', async () => {
-    const clientId   = document.getElementById('clientSelect').value;
-    const amount     = document.getElementById('amount').value;
-    const dueDate    = document.getElementById('dueDate').value;
-    const desc       = document.getElementById('serviceDescription').value.trim();
-    const status     = document.getElementById('selectedStatus').value;
+    const clientId = document.getElementById('clientSelect').value;
+    const amount = document.getElementById('amount').value;
+    const dueDate = document.getElementById('dueDate').value;
+    const desc = document.getElementById('serviceDescription').value.trim();
+    const status = document.getElementById('selectedStatus').value;
 
     if (!clientId) { showFeedback('error', 'Please select a client.'); return; }
     if (!amount || parseFloat(amount) <= 0) { showFeedback('error', 'Please enter a valid amount.'); return; }
 
     const btn = document.getElementById('submitBtn');
-    btn.textContent = 'CREATING...';
-    btn.disabled = true;
+    btn.textContent = 'CREATING...'; btn.disabled = true;
 
     const { error } = await db.from('invoices').insert([{
       client_id: clientId,
@@ -931,17 +688,11 @@
       due_date: dueDate || null
     }]);
 
-    btn.textContent = 'CREATE INVOICE';
-    btn.disabled = false;
-
-    if (error) {
-      showFeedback('error', 'Failed to create invoice. Please try again.');
-      return;
-    }
+    btn.textContent = 'CREATE INVOICE'; btn.disabled = false;
+    if (error) { showFeedback('error', 'Failed to create invoice. Please try again.'); return; }
 
     showFeedback('success', `Invoice ${nextInvoiceNumber} created successfully!`);
 
-    // Reset form
     document.getElementById('clientSelect').value = '';
     document.getElementById('amount').value = '';
     document.getElementById('dueDate').value = '';
@@ -954,28 +705,14 @@
     pills.forEach(p => p.className = 'status-pill');
     document.getElementById('pill-unpaid').classList.add('active-unpaid');
     document.getElementById('selectedStatus').value = 'unpaid';
-
-    // Regenerate invoice number
     await generateInvoiceNumber();
-
-    // Redirect after short delay
     setTimeout(() => window.location.href = 'invoices.html', 1500);
   });
 
-  // ── SET DEFAULT DUE DATE (14 days from today) ──
-  function setDefaultDueDate() {
-    const d = new Date();
-    d.setDate(d.getDate() + 14);
-    const formatted = d.toISOString().split('T')[0];
-    document.getElementById('dueDate').value = formatted;
-    document.getElementById('summaryDue').textContent = formatDate(formatted);
-  }
+  function setDefaultDueDate() { const d = new Date(); d.setDate(d.getDate() + 14); document.getElementById('dueDate').value = d.toISOString().split('T')[0]; document.getElementById('summaryDue').textContent = formatDate(d.toISOString().split('T')[0]); }
 
-  // ── INIT ──
-  generateInvoiceNumber();
-  loadClients();
-  setDefaultDueDate();
+  async function init() { const authed = await checkAuth(); if (authed) { await generateInvoiceNumber(); await loadClients(); setDefaultDueDate(); } }
+  init();
 </script>
-
 </body>
 </html>
